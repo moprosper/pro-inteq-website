@@ -42,7 +42,7 @@ export default function Hero() {
           </div>
 
           <div className="flex justify-center lg:justify-end">
-            <Logo variant="hero" />
+            <Logo variant="hero" className="drop-shadow-xl" />
           </div>
         </div>
       </div>

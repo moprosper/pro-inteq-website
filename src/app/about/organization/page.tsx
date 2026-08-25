@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import PageLayout from "@/components/PageLayout";
 import PageHero from "@/components/PageHero";
-import { COMPANY } from "@/lib/company";
-import { ORG_CHART_PATH } from "@/lib/assets";
+import OrganizationStructure from "@/components/OrganizationStructure";
 
 export const metadata: Metadata = {
   title: "Organization Structure | PRO-INTEQ Engineering and Consulting Company Limited",
@@ -22,17 +20,11 @@ export default function OrganizationPage() {
 
       <section className="bg-white py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
-            <Image
-              src={ORG_CHART_PATH}
-              alt={`${COMPANY.name} Organization Chart`}
-              width={1200}
-              height={800}
-              className="h-auto w-full"
-            />
-          </div>
-          <p className="mt-6 text-gray-600">
-            Our hierarchical structure ensures efficient operations and clear leadership roles.
+          <OrganizationStructure />
+          <p className="mx-auto mt-10 max-w-3xl text-center text-gray-600">
+            Our structure reflects the company&apos;s management and operational organization,
+            supporting the delivery of multidisciplinary engineering services across its core
+            sectors.
           </p>
         </div>
       </section>

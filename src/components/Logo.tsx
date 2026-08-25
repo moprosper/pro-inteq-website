@@ -9,10 +9,10 @@ interface LogoProps {
   className?: string;
 }
 
-const sizes = {
-  default: { width: 160, height: 48 },
-  hero: { width: 280, height: 84 },
-  footer: { width: 180, height: 54 },
+const sizeClasses = {
+  default: "h-10 w-auto",
+  hero: "h-36 w-auto sm:h-44",
+  footer: "h-11 w-auto",
 };
 
 export default function Logo({
@@ -20,17 +20,16 @@ export default function Logo({
   showText = false,
   className = "",
 }: LogoProps) {
-  const { width, height } = sizes[variant];
-
   return (
     <Link href="/" className={`inline-flex items-center gap-3 ${className}`}>
       <Image
         src={LOGO_PATH}
-        alt={`${COMPANY.shortName} Engineering and Consulting logo`}
-        width={width}
-        height={height}
-        className="h-auto w-auto object-contain"
+        alt={`${COMPANY.shortName} logo`}
+        width={1024}
+        height={1024}
+        className={`${sizeClasses[variant]} object-contain`}
         priority={variant === "hero"}
+        unoptimized
       />
       {showText && (
         <span className="sr-only">{COMPANY.name}</span>

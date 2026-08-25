@@ -491,4 +491,22 @@ export const COMPANY = {
 
   projectNote:
     "PRO-INTEQ is compiling a portfolio of completed engineering projects. Detailed case studies will be published here as they are confirmed.",
+
+  organization: {
+    board: "Board of Directors",
+    managingDirector: {
+      name: "Eng. Moses Prosper",
+      title: "Managing Director",
+    },
+    departments: [
+      { title: "Engineering Consultancy Services", icon: "consultancy" },
+      { title: "Electrical Engineering Works", icon: "electrical" },
+      { title: "Electrical Materials Supply", icon: "supply" },
+      { title: "Telecommunication, ICT and Security Systems", icon: "telecom" },
+      { title: "Fiber Optic Solutions", icon: "fiber" },
+      { title: "Civil Works, Tower Erection and Construction", icon: "civil" },
+      { title: "Mechanical Works", icon: "mechanical" },
+      { title: "General Supply", icon: "supply" },
+    ],
+  },
 } as const;

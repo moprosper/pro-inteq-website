@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import PageLayout from "@/components/PageLayout";
 import PageHero from "@/components/PageHero";
 import CoreValues from "@/components/home/CoreValues";
+import OrganizationStructure from "@/components/OrganizationStructure";
 import { COMPANY } from "@/lib/company";
-import { ORG_CHART_PATH } from "@/lib/assets";
 
 export const metadata: Metadata = {
   title: "About Us | PRO-INTEQ Engineering and Consulting Company Limited",
@@ -114,14 +113,8 @@ export default function AboutPage() {
               and operational organization, supporting the delivery of multidisciplinary
               engineering services across its core sectors.
             </p>
-            <div className="mt-6 overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-              <Image
-                src={ORG_CHART_PATH}
-                alt={`${COMPANY.name} Organizational Structure`}
-                width={1200}
-                height={800}
-                className="h-auto w-full"
-              />
+            <div className="mt-6">
+              <OrganizationStructure />
             </div>
           </div>
         </div>
