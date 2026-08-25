@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f2744;
 }
 
 @theme inline {
@@ -10,17 +10,50 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-navy-50: #f0f4f8;
+  --color-navy-100: #d9e2ec;
+  --color-navy-700: #1e3a5f;
+  --color-navy-900: #0f2744;
+  --color-navy-950: #0a1628;
+
+  --color-orange-400: #fb923c;
+  --color-orange-500: #f97316;
+  --color-orange-600: #ea580c;
+
+  --color-brand-50: #eff4fb;
+  --color-brand-100: #dbe6f5;
+  --color-brand-200: #bdd2ee;
+  --color-brand-300: #90b4e2;
+  --color-brand-400: #5d8fd2;
+  --color-brand-500: #356fc2;
+  --color-brand-600: #2456a8;
+  --color-brand-700: #1d4486;
+  --color-brand-800: #193a6f;
+  --color-brand-900: #162f57;
+  --color-brand-950: #0e1d39;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
 }
