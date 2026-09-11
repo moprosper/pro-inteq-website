@@ -14,10 +14,11 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <PageLayout>
-      <PageHero
+       <PageHero
         label="About Us"
         title="About PRO-INTEQ"
         description={COMPANY.description}
+        bgImage="/images/engineering-consultancy.jpg"
       />
 
       <section className="bg-white py-20">

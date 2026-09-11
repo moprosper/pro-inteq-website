@@ -1,11 +1,22 @@
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
+import SiteImage from "@/components/SiteImage";
 import { COMPANY } from "@/lib/company";
 
 export default function HseSummary() {
   return (
-    <section className="bg-brand-950 py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative bg-brand-950 py-24">
+      <div className="absolute inset-0 opacity-15">
+        <SiteImage
+          src="/images/hse-safety.jpg"
+          alt=""
+          className="h-full w-full"
+          objectFit="cover"
+          overlay={false}
+          rounded={false}
+        />
+      </div>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
             <SectionHeading

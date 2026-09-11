@@ -13,10 +13,11 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <PageLayout>
-      <PageHero
+       <PageHero
         label="Our Services"
         title="Integrated Engineering Services"
         description="PRO-INTEQ delivers multidisciplinary engineering, contracting, consulting, and supply services across eight core areas — supporting clients from design through installation, commissioning, and maintenance."
+        bgImage="/images/engineering-consultancy.jpg"
       />
 
       <section className="bg-gray-50 py-20">

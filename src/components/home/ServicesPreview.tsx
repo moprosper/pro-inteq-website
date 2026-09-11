@@ -1,7 +1,18 @@
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceIcon from "@/components/ServiceIcon";
+import SiteImage from "@/components/SiteImage";
 import { COMPANY } from "@/lib/company";
+
+const serviceImages: Record<string, string> = {
+  consultancy: "/images/engineering-consultancy.jpg",
+  electrical: "/images/electrical-substation.jpg",
+  supply: "/images/electrical-panel.jpg",
+  telecom: "/images/telecommunication-tower.jpg",
+  fiber: "/images/fiber-optic-installation.jpg",
+  civil: "/images/civil-construction.jpg",
+  mechanical: "/images/hvac-mechanical.jpg",
+};
 
 export default function ServicesPreview() {
   return (
@@ -17,15 +28,25 @@ export default function ServicesPreview() {
           {COMPANY.servicePreviews.map((service) => (
             <div
               key={service.title}
-              className="group rounded-2xl border border-gray-100 bg-white p-6 transition-all hover:-translate-y-1 hover:border-brand-200 hover:shadow-lg"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-brand-200 hover:shadow-lg"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600 text-white transition-colors group-hover:bg-brand-500">
-                <ServiceIcon type={service.icon} />
+              <div className="relative h-40 overflow-hidden">
+                <SiteImage
+                  src={serviceImages[service.icon] || serviceImages.consultancy}
+                  alt={`${service.title} - representative engineering imagery`}
+                  className="h-full"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-900/70 via-transparent to-transparent" />
+                <div className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-600 text-white">
+                  <ServiceIcon type={service.icon} />
+                </div>
               </div>
-              <h3 className="font-bold text-brand-900">{service.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                {service.description}
-              </p>
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className="font-bold text-brand-900">{service.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                  {service.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

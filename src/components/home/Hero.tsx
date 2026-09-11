@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Logo from "@/components/Logo";
+import SiteImage from "@/components/SiteImage";
 import { COMPANY } from "@/lib/company";
 
 export default function Hero() {
@@ -41,8 +41,24 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="flex justify-center lg:justify-end">
-            <Logo variant="hero" className="drop-shadow-xl" />
+          <div className="relative hidden lg:block">
+            <div className="relative mx-auto max-w-lg overflow-hidden rounded-2xl shadow-2xl shadow-black/30 ring-1 ring-white/10">
+              <SiteImage
+                src="/images/industrial-engineering.jpg"
+                alt="Industrial engineering environment representing PRO-INTEQ engineering services"
+                className="aspect-[4/3]"
+                overlay
+                overlayClassName="bg-gradient-to-t from-brand-950/60 via-transparent to-transparent"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <p className="text-sm font-semibold text-white">
+                  Precision in every project
+                </p>
+                <p className="text-xs text-brand-200">
+                  Engineering consultancy, contracting &amp; supply
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

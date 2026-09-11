@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
+import SiteImage from "@/components/SiteImage";
 import { COMPANY } from "@/lib/company";
 
 export default function AboutPreview() {
@@ -43,6 +44,39 @@ export default function AboutPreview() {
               <p className="mt-2 text-sm leading-relaxed text-gray-600">
                 {COMPANY.vision}
               </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12 overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
+          <div className="grid lg:grid-cols-2">
+            <div className="relative hidden aspect-[16/10] lg:block">
+              <SiteImage
+                src="/images/industrial-engineering.jpg"
+                alt="Industrial engineering facility representing PRO-INTEQ engineering environment"
+                className="h-full"
+              />
+            </div>
+            <div className="p-8 lg:p-10">
+              <h3 className="text-xl font-bold text-brand-900">
+                Engineering with Precision
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-gray-600">
+                From initial consultation through design, procurement,
+                installation, and ongoing maintenance, PRO-INTEQ delivers
+                integrated engineering services across six core sectors with
+                disciplined execution and technical excellence.
+              </p>
+              <div className="mt-6 grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-2xl font-bold text-brand-600">6+</p>
+                  <p className="text-xs text-gray-500">Core Sectors</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-brand-600">End-to-End</p>
+                  <p className="text-xs text-gray-500">Project Delivery</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

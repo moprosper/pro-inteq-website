@@ -13,10 +13,11 @@ export const metadata: Metadata = {
 export default function HsePage() {
   return (
     <PageLayout>
-      <PageHero
+       <PageHero
         label="Health, Safety & Environment"
         title="Our HSE Commitment"
         description={COMPANY.hseSummary}
+        bgImage="/images/hse-safety.jpg"
       />
 
       <section className="bg-white py-20">

@@ -32,10 +32,11 @@ const industryDescriptions: Record<string, string> = {
 export default function IndustriesPage() {
   return (
     <PageLayout>
-      <PageHero
+       <PageHero
         label="Industries We Serve"
         title="Sectors We Support"
         description="PRO-INTEQ delivers engineering solutions to a broad range of clients and sectors, providing integrated technical services tailored to each industry's requirements."
+        bgImage="/images/industrial-engineering.jpg"
       />
 
       <section className="bg-white py-20">
