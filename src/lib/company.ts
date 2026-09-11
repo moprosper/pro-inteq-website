@@ -498,15 +498,35 @@ export const COMPANY = {
       name: "Eng. Moses Prosper",
       title: "Managing Director",
     },
+    management: [
+      { title: "Technical Director" },
+      { title: "Administration & Finance" },
+    ],
     departments: [
-      { title: "Engineering Consultancy Services", icon: "consultancy" },
-      { title: "Electrical Engineering Works", icon: "electrical" },
-      { title: "Electrical Materials Supply", icon: "supply" },
-      { title: "Telecommunication, ICT and Security Systems", icon: "telecom" },
-      { title: "Fiber Optic Solutions", icon: "fiber" },
-      { title: "Civil Works, Tower Erection and Construction", icon: "civil" },
-      { title: "Mechanical Works", icon: "mechanical" },
-      { title: "General Supply", icon: "supply" },
+      {
+        title: "Telecommunication, ICT & Security System",
+        roles: ["Project Manager", "Supervisors", "Engineers", "Technicians"],
+      },
+      {
+        title: "Mechanical Department",
+        roles: ["Mechanical Supervisors", "Engineers", "Technicians"],
+      },
+      {
+        title: "Electrical Department",
+        roles: ["Project Manager", "Supervisors", "Engineers", "Technicians"],
+      },
+      {
+        title: "Civil & Building Department",
+        roles: ["Project Manager", "Supervisors", "Engineers", "Technicians"],
+      },
+      {
+        title: "Procurement & Logistic",
+        roles: ["Managers & Officers"],
+      },
+      {
+        title: "Health, Safety & Environmental",
+        roles: ["HSE Manager"],
+      },
     ],
   },
 } as const;
