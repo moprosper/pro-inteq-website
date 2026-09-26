@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
         <AboutPreview />
         <WhyChooseUs />
@@ -28,12 +28,12 @@ export default function Home() {
         <Approach />
         <HseSummary />
 
-        <section className="bg-white py-24">
+        <section className="bg-white py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <SectionHeading
               label="Our Team"
               title="Leadership & Expertise"
-              description="PRO-INTEQ is led by an experienced management team and supported by multidisciplinary engineering professionals across our core sectors."
+              description="PRO-INTEQ is led by its Managing Director and organized into multidisciplinary engineering departments across our core sectors."
             />
             <TeamGrid />
           </div>

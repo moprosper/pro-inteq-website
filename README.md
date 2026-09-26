@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PRO-INTEQ Engineering and Consulting — Website
 
-## Getting Started
+Corporate website for **PRO-INTEQ Engineering and Consulting Company Limited**, Dar es Salaam, Tanzania.
 
-First, run the development server:
+Built with Next.js 16 (App Router), React 19, TypeScript and Tailwind CSS 4.
+
+## Getting started
+
+Requires Node.js 20.9 or later.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # then fill in the values
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Command         | Purpose                          |
+| --------------- | -------------------------------- |
+| `npm run dev`   | Development server               |
+| `npm run build` | Production build                 |
+| `npm run start` | Serve the production build       |
+| `npm run lint`  | ESLint                           |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See [`.env.example`](.env.example).
 
-## Learn More
+- `NEXT_PUBLIC_SITE_URL` — the public domain. Canonical URLs, `sitemap.xml`, `robots.txt` and social previews use it. Set it before going live.
+- `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` — contact form delivery via [Resend](https://resend.com). Without them the form does **not** send; it tells the visitor so and offers a pre-filled email and the phone number instead.
 
-To learn more about Next.js, take a look at the following resources:
+The contact form uses a Server Action, so the site must be deployed to a Node.js-capable host (for example Vercel), not as a static export.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Editing content
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Company content lives in one place: [`src/lib/company.ts`](src/lib/company.ts) — company details, services, industries, HSE policy, team and organization structure.
 
-## Deploy on Vercel
+- **Projects:** add confirmed projects to the `projects` array. The home page section and project cards appear automatically; until then `/projects` shows a neutral "in preparation" notice.
+- **Clients and partners:** add entries (name + logo in `public/`) to the `partners` array. The section stays hidden while it is empty.
+- **Team:** add confirmed people to `team`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Photography is catalogued in [`src/lib/assets.ts`](src/lib/assets.ts) with accurate alt text. Current photos are illustrative stock images; replace them with PRO-INTEQ's own site photography when available (keep files under ~500 KB, max 2000 px on the long edge).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The logo used on the site is `public/brand/pro-inteq-logo.png` (transparent, generated from the official logo). The browser icon and share image are `src/app/icon.png`, `src/app/apple-icon.png` and `src/app/opengraph-image.jpg`.

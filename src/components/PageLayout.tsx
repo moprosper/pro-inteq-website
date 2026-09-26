@@ -9,7 +9,9 @@ export default function PageLayout({ children }: PageLayoutProps) {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-20">{children}</main>
+      <main id="main-content" className="min-h-screen pt-16">
+        {children}
+      </main>
       <Footer />
     </>
   );

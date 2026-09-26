@@ -1,8 +1,52 @@
+export type ServiceIconType =
+  | "consultancy"
+  | "electrical"
+  | "telecom"
+  | "fiber"
+  | "ict"
+  | "civil"
+  | "mechanical"
+  | "supply";
+
+export interface Project {
+  title: string;
+  sector: string;
+  description: string;
+  location?: string;
+  service?: string;
+  image?: { src: string; alt: string };
+}
+
+export interface Partner {
+  name: string;
+  logo: string;
+  url?: string;
+}
+
+export interface Industry {
+  name: string;
+  description: string;
+}
+
+// Confirmed projects and partners only. Sections that list them stay hidden
+// (or show a neutral notice) while these are empty.
+const projects: readonly Project[] = [];
+const partners: readonly Partner[] = [];
+
 export const COMPANY = {
   name: "PRO-INTEQ Engineering and Consulting Company Limited",
   shortName: "PRO-INTEQ",
   tagline: "Precision in every project",
-  principle: "Precision in every project",
+  principle: "Engineering with honesty, ensuring reliability.",
+
+  sectors: [
+    "Mechanical",
+    "Electrical",
+    "Telecommunication",
+    "Civil Construction",
+    "ICT",
+    "General Supply",
+  ],
 
   description:
     "PRO-INTEQ Engineering and Consulting Company Limited is a Tanzanian private limited engineering company providing reliable engineering solutions in Mechanical, Electrical, Telecommunication, Civil Construction, ICT and General Supply sectors.",
@@ -16,13 +60,21 @@ export const COMPANY = {
   mainObjective:
     "To provide reliable, innovative, and professional engineering solutions across Mechanical, Electrical, Telecommunication, Civil Construction, ICT, and General Supply sectors while delivering safe, efficient, and sustainable infrastructure solutions that create long-term value for clients, partners, and communities.",
 
-  vision:
-    "PRO-INTEQ aims to become a trusted engineering contractor and technology solutions provider in Tanzania and Africa by maintaining high standards of quality, integrity, safety, and technical excellence.",
+  vision: "To become a benchmark engineering firm in Africa.",
+
+  mission:
+    "To provide integrated engineering and consulting services with excellence, safety, integrity, technical precision, and long-term value.",
 
   contact: {
     email: "prointeq.engineering@gmail.com",
-    phones: ["+255 719303529"],
+    phones: ["+255 719 303 529"],
     location: "Jamhuri / Morogoro Road,\nDar es Salaam, Tanzania",
+    address: {
+      street: "Jamhuri / Morogoro Road",
+      city: "Dar es Salaam",
+      country: "Tanzania",
+      countryCode: "TZ",
+    },
   },
 
   coreValues: [
@@ -52,67 +104,108 @@ export const COMPANY = {
         "Building lasting client relationships through reliable delivery and responsive service.",
     },
     {
-      title: "Cost Efficiency",
+      title: "Cost Efficiency through Proper Planning",
       description:
-        "Providing value-driven solutions that optimize resources without compromising quality.",
+        "Planning work properly to provide value-driven solutions that optimize resources without compromising quality.",
     },
   ],
 
   industries: [
-    "Telecommunications",
-    "Construction",
-    "Government Institutions",
-    "Industrial Facilities",
-    "Commercial Facilities",
-    "Private Organizations",
-    "Infrastructure Projects",
-    "Energy & Electrical Infrastructure",
-  ],
+    {
+      name: "Telecommunications",
+      description:
+        "Telecom infrastructure, BTS installation, fiber optic networks, and integrated site maintenance.",
+    },
+    {
+      name: "Construction",
+      description:
+        "Civil works, tower erection, building construction, and infrastructure development.",
+    },
+    {
+      name: "Government Institutions",
+      description:
+        "Reliable engineering and technical services for public institutions and infrastructure programmes.",
+    },
+    {
+      name: "Industrial Facilities",
+      description:
+        "Mechanical, electrical, and automation support for industrial plants and facilities.",
+    },
+    {
+      name: "Commercial Facilities",
+      description:
+        "Engineering, ICT, and security systems for commercial buildings and businesses.",
+    },
+    {
+      name: "Private Organizations",
+      description:
+        "Tailored engineering and consulting services for private clients and developments.",
+    },
+    {
+      name: "Infrastructure Projects",
+      description:
+        "Multidisciplinary engineering for infrastructure development and public works.",
+    },
+    {
+      name: "Energy & Electrical Infrastructure",
+      description:
+        "Power generation, distribution, substations, and renewable energy solutions.",
+    },
+  ] satisfies Industry[],
 
+  // Short summaries for the home page; `id` matches `serviceGroups[].id`.
   servicePreviews: [
     {
+      id: "consultancy",
       title: "Engineering Consultancy Services",
       description:
         "Professional advisory, design, feasibility studies, and project management for engineering projects.",
       icon: "consultancy",
     },
     {
+      id: "electrical",
       title: "Electrical Engineering Works",
       description:
         "Power systems, electrical installation, industrial automation, and renewable energy solutions.",
       icon: "electrical",
     },
     {
+      id: "electrical-supply",
       title: "Electrical Materials Supply",
       description:
         "Supply of quality electrical cables, panels, fittings, and components for engineering projects.",
       icon: "supply",
     },
     {
+      id: "telecom",
       title: "Telecommunication, ICT and Security Systems",
       description:
         "Telecom infrastructure, BTS installation, network solutions, and integrated security systems.",
       icon: "telecom",
     },
     {
+      id: "fiber",
       title: "Fiber Optic Solutions",
       description:
         "End-to-end fiber optic network design, installation, testing, and maintenance services.",
       icon: "fiber",
     },
     {
+      id: "civil",
       title: "Civil Works, Tower Erection and Construction",
       description:
         "Civil infrastructure, tower erection, building construction, and infrastructure development.",
       icon: "civil",
     },
     {
+      id: "mechanical",
       title: "Mechanical Works",
       description:
         "HVAC systems, piping, industrial mechanical maintenance, and machinery installation.",
       icon: "mechanical",
     },
     {
+      id: "general-supply",
       title: "General Supply Services",
       description:
         "Procurement and supply of engineering materials, equipment, and industrial components.",
@@ -129,59 +222,6 @@ export const COMPANY = {
     "Procurement, logistics, and general supply for engineering projects",
     "Health, Safety and Environmental (HSE) compliance across all operations",
   ],
-
-  detailedServices: {
-    consultancy: {
-      title: "Engineering Consultancy",
-      items: [
-        "Electrical design",
-        "Feasibility studies",
-        "Project management",
-        "Substation maintenance",
-        "Generator consultancy",
-      ],
-    },
-    electrical: {
-      title: "Electrical Works",
-      items: [
-        "Power systems",
-        "Electrical installation",
-        "Industrial automation",
-        "Renewable energy solutions",
-        "Backup power systems",
-      ],
-    },
-    telecom: {
-      title: "Telecommunication & ICT",
-      items: [
-        "Telecom infrastructure",
-        "BTS installation",
-        "Fiber optic solutions",
-        "Structured cabling",
-        "Network solutions",
-        "Security systems",
-      ],
-    },
-    civil: {
-      title: "Civil & Construction",
-      items: [
-        "Civil infrastructure",
-        "Tower erection",
-        "Building construction",
-        "Infrastructure development",
-      ],
-    },
-    mechanical: {
-      title: "Mechanical",
-      items: [
-        "HVAC systems",
-        "Elevator and escalator installation",
-        "Piping systems",
-        "Industrial mechanical maintenance",
-        "Fabrication and machinery installation",
-      ],
-    },
-  },
 
   hsePolicy: [
     {
@@ -485,15 +525,19 @@ export const COMPANY = {
   ],
 
   partnersNote:
-    "PRO-INTEQ works with clients, technology partners, and suppliers across the engineering and infrastructure sectors. Partner and client logos will be published here in due course.",
+    "PRO-INTEQ works with clients, technology partners, and suppliers across the engineering and infrastructure sectors.",
 
-  projects: [] as const,
+  partners,
+
+  projects,
 
   projectNote:
     "PRO-INTEQ is compiling a portfolio of completed engineering projects. Detailed case studies will be published here as they are confirmed.",
 
+  // Mirrors the company organization chart (public/company organization.jpg).
   organization: {
     board: "Board of Directors",
+    executive: { title: "Director & CEO" },
     managingDirector: {
       name: "Eng. Moses Prosper",
       title: "Managing Director",

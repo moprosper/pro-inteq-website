@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import PageLayout from "@/components/PageLayout";
 import PageHero from "@/components/PageHero";
 import Contact from "@/components/Contact";
+import { COMPANY } from "@/lib/company";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Contact Us | PRO-INTEQ Engineering and Consulting Company Limited",
-  description:
-    "Contact PRO-INTEQ Engineering and Consulting Company Limited by email at prointeq.engineering@gmail.com or call +255 719303529 to discuss your engineering project.",
-};
+export const metadata = pageMetadata({
+  title: "Contact Us",
+  description: `Contact ${COMPANY.name} in Dar es Salaam, Tanzania. Email ${COMPANY.contact.email} or call ${COMPANY.contact.phones[0]} to discuss your engineering project.`,
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

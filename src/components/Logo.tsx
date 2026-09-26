@@ -1,39 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
-import { LOGO_PATH } from "@/lib/assets";
+import { LOGO } from "@/lib/assets";
 import { COMPANY } from "@/lib/company";
 
 interface LogoProps {
-  variant?: "default" | "hero" | "footer";
-  showText?: boolean;
-  className?: string;
+  variant?: "header" | "footer";
 }
 
-const sizeClasses = {
-  default: "h-10 w-auto",
-  hero: "h-36 w-auto sm:h-44",
-  footer: "h-11 w-auto",
-};
+export default function Logo({ variant = "header" }: LogoProps) {
+  // The logo artwork has dark lettering, so on the dark footer it sits on a
+  // white plate to stay legible.
+  const wrapperClass =
+    variant === "footer" ? "inline-flex rounded-lg bg-white px-3 py-2" : "inline-flex";
 
-export default function Logo({
-  variant = "default",
-  showText = false,
-  className = "",
-}: LogoProps) {
   return (
-    <Link href="/" className={`inline-flex items-center gap-3 ${className}`}>
+    <Link href="/" aria-label={`${COMPANY.shortName} home`} className={wrapperClass}>
       <Image
-        src={LOGO_PATH}
-        alt={`${COMPANY.shortName} logo`}
-        width={1024}
-        height={1024}
-        className={`${sizeClasses[variant]} object-contain`}
-        priority={variant === "hero"}
-        unoptimized
+        src={LOGO.src}
+        alt={`${COMPANY.shortName} Engineering and Consulting`}
+        width={LOGO.width}
+        height={LOGO.height}
+        sizes="200px"
+        className="h-10 w-auto"
+        loading={variant === "header" ? "eager" : "lazy"}
       />
-      {showText && (
-        <span className="sr-only">{COMPANY.name}</span>
-      )}
     </Link>
   );
 }
