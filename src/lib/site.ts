@@ -1,17 +1,14 @@
 /**
  * Site-wide configuration shared by metadata, sitemap, robots and navigation.
  *
- * The public URL is read from NEXT_PUBLIC_SITE_URL. On Vercel the production
- * domain is used automatically when that variable is not set. Local builds fall
- * back to localhost so canonical URLs never point at a guessed domain.
+ * The public URL comes only from NEXT_PUBLIC_SITE_URL (for example
+ * https://www.example.co.tz), so the site is not tied to any hosting provider.
+ * Without it, URLs fall back to localhost for local development, and
+ * next.config.ts warns during production builds.
  */
 function resolveSiteUrl(): string {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (explicit) return explicit.replace(/\/+$/, "");
-
-  const vercelProduction = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
-  if (vercelProduction) return `https://${vercelProduction}`;
-
   return "http://localhost:3000";
 }
 
@@ -24,11 +21,17 @@ export interface NavLink {
 
 export const MAIN_NAV: readonly NavLink[] = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Us" },
   { href: "/services", label: "Services" },
-  { href: "/projects", label: "Projects" },
   { href: "/industries", label: "Industries" },
-  { href: "/hse", label: "HSE" },
-  { href: "/team", label: "Team" },
+  { href: "/supply-procurement", label: "Supply & Procurement" },
+  { href: "/projects", label: "Projects" },
+  { href: "/hse-quality", label: "HSE & Quality" },
+  { href: "/company-profile", label: "Company Profile" },
   { href: "/contact", label: "Contact" },
 ];
+
+export const QUOTE_HREF = "/contact#quote";
+
+/** Every indexable route, for the sitemap. */
+export const SITEMAP_PATHS = [...MAIN_NAV.map((link) => link.href), "/about/organization", "/privacy"];

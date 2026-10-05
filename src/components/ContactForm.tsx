@@ -1,41 +1,52 @@
 "use client";
 
-import { useActionState } from "react";
+import { startTransition, useActionState, type FormEvent } from "react";
+import { CheckCircle2 } from "lucide-react";
 import { submitContactForm } from "@/app/contact/actions";
-import { initialContactFormState, type ContactField } from "@/app/contact/form-state";
-import { CheckIcon } from "@/components/icons";
+import {
+  ATTACHMENT_EXTENSIONS,
+  initialContactFormState,
+  type ContactField,
+  type ContactFormState,
+} from "@/app/contact/form-state";
+import { buttonBase } from "@/components/ui";
 import { COMPANY } from "@/lib/company";
 
-const inputClass =
-  "w-full rounded-lg border bg-white px-4 py-3 text-base text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20 sm:text-sm";
+type Values = NonNullable<ContactFormState["values"]>;
 
-function mailtoHref(values: Partial<Record<ContactField, string>> = {}): string {
-  const body = [
-    values.message ?? "",
-    "",
-    values.name ? `Name: ${values.name}` : "",
-    values.phone ? `Phone: ${values.phone}` : "",
-  ]
-    .filter((line, index) => index < 2 || line)
-    .join("\n");
-  const params = new URLSearchParams({ subject: values.subject ?? "Project enquiry", body });
+const inputClass =
+  "w-full rounded-md border bg-white px-4 py-3 text-base text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm";
+
+function mailtoHref(values: Values = {}): string {
+  const details = (
+    [
+      ["Name", values.name],
+      ["Company", values.company],
+      ["Phone", values.phone],
+      ["Requirement", values.requirement],
+      ["Project location", values.location],
+    ] as const
+  )
+    .filter(([, value]) => value)
+    .map(([label, value]) => `${label}: ${value}`);
+  const body = [values.message ?? "", "", ...details].join("\n");
+  const subject = `Quote request: ${values.requirement ?? "Project enquiry"}`;
+  const params = new URLSearchParams({ subject, body });
   // mailto expects %20 rather than "+" for spaces.
   return `mailto:${COMPANY.contact.email}?${params.toString().replace(/\+/g, "%20")}`;
 }
 
-export default function ContactForm() {
+export default function ContactForm({ requirementOptions }: { requirementOptions: readonly string[] }) {
   const [state, formAction, pending] = useActionState(submitContactForm, initialContactFormState);
 
   if (state.status === "success") {
     return (
-      <div role="status" className="flex h-full flex-col items-center justify-center py-12 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-700">
-          <CheckIcon className="h-8 w-8" />
-        </div>
-        <h3 className="text-xl font-bold text-navy-900">Message sent</h3>
-        <p className="mt-2 max-w-md text-gray-600">
-          Thank you for contacting {COMPANY.shortName}. Your message has been delivered to our
-          team and we will reply by email.
+      <div role="status" className="py-10 text-center">
+        <CheckCircle2 className="mx-auto h-14 w-14 text-primary" aria-hidden="true" />
+        <h3 className="mt-4 font-display text-2xl font-bold text-navy">Request sent</h3>
+        <p className="mx-auto mt-2 max-w-md text-muted">
+          Thank you for contacting {COMPANY.shortName}. Your request has been delivered to our team and we will reply
+          by email.
         </p>
       </div>
     );
@@ -44,13 +55,16 @@ export default function ContactForm() {
   const errors = state.errors ?? {};
   const values = state.values ?? {};
 
-  const fieldProps = (field: ContactField) => ({
+  const describedBy = (field: ContactField, hint?: string) =>
+    [errors[field] ? `${field}-error` : null, hint].filter(Boolean).join(" ") || undefined;
+
+  const fieldProps = (field: keyof Values) => ({
     id: field,
     name: field,
     defaultValue: values[field],
     "aria-invalid": errors[field] ? true : undefined,
-    "aria-describedby": errors[field] ? `${field}-error` : undefined,
-    className: `${inputClass} ${errors[field] ? "border-red-500" : "border-gray-300"}`,
+    "aria-describedby": describedBy(field),
+    className: `${inputClass} ${errors[field] ? "border-red-600" : "border-line"}`,
   });
 
   const fieldError = (field: ContactField) =>
@@ -60,64 +74,100 @@ export default function ContactForm() {
       </p>
     ) : null;
 
-  const labelClass = "mb-2 block text-sm font-medium text-gray-800";
+  const label = (field: ContactField, text: string, required = false) => (
+    <label htmlFor={field} className="mb-2 block text-sm font-semibold text-navy">
+      {text}{" "}
+      {required ? (
+        <span aria-hidden="true" className="text-primary">
+          *
+        </span>
+      ) : (
+        <span className="font-normal text-muted">(optional)</span>
+      )}
+    </label>
+  );
+
+  // Submitting through a transition skips React's automatic form reset, so the
+  // visitor's entries (including a selected attachment) survive a validation
+  // error. Without JavaScript the form still posts through 'action'.
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    startTransition(() => formAction(formData));
+  };
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={formAction} onSubmit={handleSubmit} className="space-y-6">
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className={labelClass}>
-            Full name <span aria-hidden="true">*</span>
-          </label>
+          {label("name", "Name", true)}
           <input type="text" required minLength={2} maxLength={100} autoComplete="name" {...fieldProps("name")} />
           {fieldError("name")}
         </div>
         <div>
-          <label htmlFor="email" className={labelClass}>
-            Email address <span aria-hidden="true">*</span>
-          </label>
+          {label("company", "Company")}
+          <input type="text" maxLength={150} autoComplete="organization" {...fieldProps("company")} />
+          {fieldError("company")}
+        </div>
+        <div>
+          {label("email", "Email", true)}
           <input type="email" required maxLength={254} autoComplete="email" {...fieldProps("email")} />
           {fieldError("email")}
         </div>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label htmlFor="phone" className={labelClass}>
-            Phone number <span className="font-normal text-gray-500">(optional)</span>
-          </label>
+          {label("phone", "Phone")}
           <input type="tel" maxLength={40} autoComplete="tel" {...fieldProps("phone")} />
           {fieldError("phone")}
         </div>
         <div>
-          <label htmlFor="subject" className={labelClass}>
-            Subject <span aria-hidden="true">*</span>
-          </label>
-          <input
-            type="text"
-            required
-            minLength={3}
-            maxLength={150}
-            placeholder="e.g. Electrical installation enquiry"
-            {...fieldProps("subject")}
-          />
-          {fieldError("subject")}
+          {label("requirement", "Service / requirement", true)}
+          <select required {...fieldProps("requirement")} defaultValue={values.requirement ?? ""}>
+            <option value="" disabled>
+              Select…
+            </option>
+            {requirementOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+          {fieldError("requirement")}
+        </div>
+        <div>
+          {label("location", "Project location")}
+          <input type="text" maxLength={150} placeholder="e.g. Dar es Salaam" {...fieldProps("location")} />
+          {fieldError("location")}
         </div>
       </div>
 
       <div>
-        <label htmlFor="message" className={labelClass}>
-          Message <span aria-hidden="true">*</span>
-        </label>
+        {label("message", "Message", true)}
         <textarea
           rows={6}
           required
           minLength={10}
           maxLength={5000}
-          placeholder="Describe the project scope, location and timeline."
+          placeholder="Describe the scope, quantities, specifications and timeline."
           {...fieldProps("message")}
         />
         {fieldError("message")}
+      </div>
+
+      <div>
+        {label("attachment", "Attachment")}
+        <input
+          type="file"
+          id="attachment"
+          name="attachment"
+          accept={ATTACHMENT_EXTENSIONS.map((ext) => `.${ext}`).join(",")}
+          aria-invalid={errors.attachment ? true : undefined}
+          aria-describedby={describedBy("attachment", "attachment-hint")}
+          className="block w-full text-sm text-muted file:mr-4 file:rounded-md file:border-0 file:bg-navy file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-white hover:file:bg-navy-soft"
+        />
+        <p id="attachment-hint" className="mt-1.5 text-xs text-muted">
+          PDF, Word, Excel, JPG or PNG, up to 5 MB — for example a BOQ, drawing or specification.
+        </p>
+        {fieldError("attachment")}
       </div>
 
       {/* Honeypot field for spam bots; hidden from people and assistive technology. */}
@@ -129,14 +179,14 @@ export default function ContactForm() {
       {/* Next to the submit button so the result is seen where the visitor is looking. */}
       <div aria-live="polite" role="status">
         {state.status === "unavailable" && (
-          <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
-            <p className="font-semibold">Your message has not been sent.</p>
+          <div className="rounded-md border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+            <p className="font-semibold">Your request has not been sent.</p>
             <p className="mt-1">
-              Online enquiries are not connected yet. Please{" "}
+              Online submissions are not connected yet. Please{" "}
               <a href={mailtoHref(values)} className="font-semibold underline">
-                send your message by email
+                send your request by email
               </a>{" "}
-              (it opens with the details you entered) or call{" "}
+              (it opens with the details you entered — attach any files there) or call{" "}
               <a href={`tel:${COMPANY.contact.phones[0].replace(/\s/g, "")}`} className="font-semibold underline">
                 {COMPANY.contact.phones[0]}
               </a>
@@ -145,8 +195,8 @@ export default function ContactForm() {
           </div>
         )}
         {state.status === "error" && (
-          <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-900">
-            <p className="font-semibold">Your message could not be sent.</p>
+          <div className="rounded-md border border-red-300 bg-red-50 p-4 text-sm text-red-900">
+            <p className="font-semibold">Your request could not be sent.</p>
             <p className="mt-1">
               Please try again, or{" "}
               <a href={mailtoHref(values)} className="font-semibold underline">
@@ -156,25 +206,29 @@ export default function ContactForm() {
             </p>
           </div>
         )}
+        {state.status === "rate-limited" && (
+          <p className="rounded-md border border-red-300 bg-red-50 p-4 text-sm text-red-900">
+            <span className="font-semibold">Too many requests.</span> Please wait a few minutes and try again, or email{" "}
+            <a href={`mailto:${COMPANY.contact.email}`} className="font-semibold underline">
+              {COMPANY.contact.email}
+            </a>
+            .
+          </p>
+        )}
         {state.status === "invalid" && (
-          <p className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm font-semibold text-red-900">
+          <p className="rounded-md border border-red-300 bg-red-50 p-4 text-sm font-semibold text-red-900">
             Please correct the highlighted fields.
           </p>
         )}
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-gray-500">
-          <span aria-hidden="true">*</span> Required fields
-        </p>
-        <button
-          type="submit"
-          disabled={pending}
-          className="w-full rounded-lg bg-brand-600 px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:cursor-wait disabled:opacity-70 sm:w-auto"
-        >
-          {pending ? "Sending…" : "Send Message"}
-        </button>
-      </div>
+      <button
+        type="submit"
+        disabled={pending}
+        className={`${buttonBase} w-full bg-primary text-white hover:bg-primary-hover disabled:cursor-wait disabled:opacity-70 sm:w-auto`}
+      >
+        {pending ? "Sending…" : "Request a Quote"}
+      </button>
     </form>
   );
 }

@@ -5,7 +5,7 @@ import { COMPANY } from "@/lib/company";
 export default function GlobalError({ retry }: { error: Error & { digest?: string }; retry: () => void }) {
   return (
     <html lang="en">
-      <body style={{ fontFamily: "system-ui, sans-serif", margin: 0, color: "#162f57" }}>
+      <body style={{ fontFamily: "system-ui, sans-serif", margin: 0, color: "#17212b" }}>
         <main style={{ maxWidth: 560, margin: "0 auto", padding: "96px 16px", textAlign: "center" }}>
           <h1 style={{ fontSize: 28 }}>Something went wrong</h1>
           <p style={{ color: "#4b5563", lineHeight: 1.6 }}>
@@ -19,7 +19,7 @@ export default function GlobalError({ retry }: { error: Error & { digest?: strin
               padding: "12px 28px",
               border: 0,
               borderRadius: 8,
-              background: "#2456a8",
+              background: "#0b5cad",
               color: "#fff",
               fontWeight: 600,
               cursor: "pointer",

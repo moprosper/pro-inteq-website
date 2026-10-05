@@ -1,41 +1,33 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #0f2744;
-}
-
+/*
+ * PRO-INTEQ brand palette (locked):
+ *   primary  #0B5CAD  PRO-INTEQ Blue
+ *   navy     #071B33  Deep Navy
+ *   surface  #F3F6F8  Industrial Light Grey
+ *   ink      #17212B  Charcoal
+ *   soft     #EAF3FB  Soft Blue
+ * Other tokens are tints/shades of these for hover, borders and text on navy.
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-archivo);
 
-  --color-navy-50: #f0f4f8;
-  --color-navy-100: #d9e2ec;
-  --color-navy-700: #1e3a5f;
-  --color-navy-900: #0f2744;
-  --color-navy-950: #0a1628;
-
-  --color-orange-400: #fb923c;
-  --color-orange-500: #f97316;
-  --color-orange-600: #ea580c;
-
-  --color-brand-50: #eff4fb;
-  --color-brand-100: #dbe6f5;
-  --color-brand-200: #bdd2ee;
-  --color-brand-300: #90b4e2;
-  --color-brand-400: #5d8fd2;
-  --color-brand-500: #356fc2;
-  --color-brand-600: #2456a8;
-  --color-brand-700: #1d4486;
-  --color-brand-800: #193a6f;
-  --color-brand-900: #162f57;
-  --color-brand-950: #0e1d39;
+  --color-primary: #0b5cad;
+  --color-primary-hover: #094b8e;
+  --color-primary-light: #8ebde9;
+  --color-navy: #071b33;
+  --color-navy-soft: #0e2a4b;
+  --color-surface: #f3f6f8;
+  --color-ink: #17212b;
+  --color-soft: #eaf3fb;
+  --color-line: #dbe3ea;
+  --color-muted: #4a5866;
 }
 
 html {
-  /* Keeps in-page anchors clear of the fixed header. */
-  scroll-padding-top: 5.5rem;
+  /* Keeps in-page anchors clear of the sticky header. */
+  scroll-padding-top: 6rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -45,28 +37,40 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #ffffff;
+  color: var(--color-ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-brand-500);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+.on-dark :focus-visible {
+  outline-color: #ffffff;
+}
+
+/* Subtle reveal as sections enter the viewport. Pure CSS: browsers without
+   scroll-driven animations simply show the content. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
   }
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out both;
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -76,10 +80,5 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  /* Hover lift effects move content; keep it still. */
-  .hover\:-translate-y-1:hover {
-    translate: none !important;
   }
 }

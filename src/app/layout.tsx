@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Archivo, Geist } from "next/font/google";
 import "./globals.css";
 import { LOGO } from "@/lib/assets";
 import { COMPANY } from "@/lib/company";
+import { SERVICES } from "@/lib/services";
 import { SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({
@@ -10,9 +11,15 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const homeTitle = `${COMPANY.name} | Dar es Salaam, Tanzania`;
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+});
+
+const homeTitle = `${COMPANY.name} | Engineering, Technical Services & Industrial Supply in Tanzania`;
 const homeDescription =
-  "PRO-INTEQ is a Tanzanian private limited engineering company providing multidisciplinary engineering, contracting, consulting, and supply services across Mechanical, Electrical, Telecommunication, Civil Construction, ICT, and General Supply sectors.";
+  "PRO-INTEQ delivers multidisciplinary engineering, technical services and industrial supply for mining, infrastructure, energy, telecommunications, manufacturing and commercial projects across Tanzania.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -22,18 +29,6 @@ export const metadata: Metadata = {
   },
   description: homeDescription,
   applicationName: COMPANY.shortName,
-  keywords: [
-    "PRO-INTEQ",
-    "engineering company Tanzania",
-    "engineering consultancy Dar es Salaam",
-    "electrical engineering Tanzania",
-    "telecommunication infrastructure",
-    "fiber optic installation",
-    "civil construction",
-    "mechanical works",
-    "ICT and security systems",
-    "general supply",
-  ],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -51,7 +46,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#162f57",
+  themeColor: "#071b33",
 };
 
 const organizationJsonLd = {
@@ -71,17 +66,20 @@ const organizationJsonLd = {
     addressLocality: COMPANY.contact.address.city,
     addressCountry: COMPANY.contact.address.countryCode,
   },
-  areaServed: { "@type": "Country", name: COMPANY.contact.address.country },
-  knowsAbout: COMPANY.serviceGroups.map((group) => group.title),
+  areaServed: [
+    { "@type": "Country", name: "Tanzania" },
+    { "@type": "AdministrativeArea", name: "Zanzibar" },
+  ],
+  knowsAbout: SERVICES.map((service) => service.title),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={geistSans.variable} data-scroll-behavior="smooth">
-      <body className="min-h-full bg-white font-sans text-gray-900 antialiased">
+    <html lang="en" className={`${geistSans.variable} ${archivo.variable}`} data-scroll-behavior="smooth">
+      <body className="min-h-full bg-white font-sans text-ink antialiased">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-brand-900 focus:shadow-lg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-navy focus:shadow-lg"
         >
           Skip to main content
         </a>

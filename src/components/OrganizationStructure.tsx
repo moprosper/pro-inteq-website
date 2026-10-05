@@ -1,62 +1,75 @@
 import { COMPANY } from "@/lib/company";
 
-function Connector({ className = "h-8" }: { className?: string }) {
-  return <div className={`mx-auto w-px bg-brand-300 ${className}`} aria-hidden="true" />;
+// Mirrors the company organization chart (assets/brand/organization-chart.jpg).
+const LEVELS = [
+  { label: "Governance", title: "Board of Directors" },
+  { label: "Executive Leadership", title: "Managing Director", name: COMPANY.leadership[0].name },
+];
+
+const MANAGEMENT = ["Technical Director", "Administration & Finance"];
+
+const DEPARTMENTS = [
+  { title: "Telecommunication, ICT & Security Systems", roles: ["Project Manager", "Supervisors", "Engineers", "Technicians"] },
+  { title: "Mechanical Department", roles: ["Mechanical Supervisors", "Engineers", "Technicians"] },
+  { title: "Electrical Department", roles: ["Project Manager", "Supervisors", "Engineers", "Technicians"] },
+  { title: "Civil & Building Department", roles: ["Project Manager", "Supervisors", "Engineers", "Technicians"] },
+  { title: "Procurement & Logistics", roles: ["Managers & Officers"] },
+  { title: "Health, Safety & Environment", roles: ["HSE Manager"] },
+];
+
+function Connector() {
+  return <div className="mx-auto h-8 w-px bg-primary/40" aria-hidden="true" />;
 }
 
 export default function OrganizationStructure() {
-  const { board, executive, managingDirector, management, departments } = COMPANY.organization;
-
   return (
-    <div className="mx-auto max-w-6xl" role="group" aria-label="PRO-INTEQ organization structure">
-      <ol className="flex flex-col items-center" aria-label="Leadership, from governance to management">
-        <li className="w-full max-w-md rounded-xl border border-gray-200 bg-white px-6 py-5 text-center shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Governance</p>
-          <p className="mt-1 text-base font-bold text-brand-900">{board}</p>
-        </li>
-        <li aria-hidden="true">
-          <Connector />
-        </li>
-        <li className="w-full max-w-md rounded-xl border border-brand-300 bg-brand-50 px-6 py-5 text-center shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-wide text-brand-700">Chief Executive</p>
-          <p className="mt-1 text-base font-bold text-brand-900">{executive.title}</p>
-        </li>
-        <li aria-hidden="true">
-          <Connector />
-        </li>
-        <li className="w-full max-w-md rounded-2xl border-2 border-brand-500 bg-brand-600 px-6 py-6 text-center text-white shadow-lg">
-          <p className="text-xs font-semibold uppercase tracking-wide text-brand-100">Executive Leadership</p>
-          <p className="mt-1 text-lg font-bold">{managingDirector.title}</p>
-          <p className="text-sm text-brand-50">{managingDirector.name}</p>
-        </li>
+    <div className="mx-auto max-w-6xl">
+      <ol className="flex flex-col items-center" aria-label="Leadership levels">
+        {LEVELS.map((level, index) => (
+          <li key={level.title} className="flex w-full flex-col items-center">
+            {index > 0 && <Connector />}
+            <div
+              className={`w-full max-w-md rounded-lg px-6 py-5 text-center ${
+                index === LEVELS.length - 1 ? "bg-primary text-white" : "border border-line bg-white"
+              }`}
+            >
+              <p
+                className={`text-xs font-semibold uppercase tracking-widest ${
+                  index === LEVELS.length - 1 ? "text-white/80" : "text-primary"
+                }`}
+              >
+                {level.label}
+              </p>
+              <p className={`mt-1 font-display text-lg font-bold ${index === LEVELS.length - 1 ? "" : "text-navy"}`}>
+                {level.title}
+              </p>
+              {level.name && (
+                <p className={`text-sm ${index === LEVELS.length - 1 ? "text-white" : "text-muted"}`}>{level.name}</p>
+              )}
+            </div>
+          </li>
+        ))}
       </ol>
 
-      <Connector className="h-10" />
-
-      <ul className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2" aria-label="Management">
-        {management.map((mgr) => (
-          <li
-            key={mgr.title}
-            className="mx-auto w-full max-w-xs rounded-xl border border-brand-300 bg-brand-50 px-6 py-4 text-center shadow-sm"
-          >
-            <p className="text-xs font-semibold uppercase tracking-wide text-brand-700">Management</p>
-            <p className="mt-1 text-base font-bold text-brand-900">{mgr.title}</p>
+      <Connector />
+      <ul className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2" aria-label="Management">
+        {MANAGEMENT.map((title) => (
+          <li key={title} className="rounded-lg border border-line bg-soft px-6 py-4 text-center">
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary">Management</p>
+            <p className="mt-1 font-display font-bold text-navy">{title}</p>
           </li>
         ))}
       </ul>
 
-      <Connector className="h-10" />
-
-      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-label="Departments">
-        {departments.map((dept) => (
-          <li key={dept.title} className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-            <p className="border-b border-gray-100 bg-brand-50 px-5 py-3 text-center text-sm font-semibold text-brand-900">
-              {dept.title}
-            </p>
-            <ul className="space-y-2 p-4">
+      <Connector />
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Departments">
+        {DEPARTMENTS.map((dept) => (
+          <li key={dept.title} className="overflow-hidden rounded-lg border border-line bg-white">
+            <p className="bg-navy px-5 py-3 text-center text-sm font-semibold text-white">{dept.title}</p>
+            <ul className="space-y-1.5 p-5">
               {dept.roles.map((role) => (
-                <li key={role} className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" aria-hidden="true" />
+                <li key={role} className="flex items-center gap-2 text-sm text-ink">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
                   {role}
                 </li>
               ))}

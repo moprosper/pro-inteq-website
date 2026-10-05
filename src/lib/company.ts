@@ -1,69 +1,46 @@
-export type ServiceIconType =
-  | "consultancy"
-  | "electrical"
-  | "telecom"
-  | "fiber"
-  | "ict"
-  | "civil"
-  | "mechanical"
-  | "supply";
+/**
+ * Single source of truth for PRO-INTEQ website content.
+ *
+ * Only verified company information belongs here. Leave a list empty rather
+ * than adding placeholder clients, projects, certifications or statistics —
+ * the pages are written to handle empty lists honestly.
+ */
+
+export interface Leader {
+  name: string;
+  role: string;
+}
 
 export interface Project {
   title: string;
   sector: string;
   description: string;
+  scope: readonly string[];
   location?: string;
-  service?: string;
   image?: { src: string; alt: string };
 }
-
-export interface Partner {
-  name: string;
-  logo: string;
-  url?: string;
-}
-
-export interface Industry {
-  name: string;
-  description: string;
-}
-
-// Confirmed projects and partners only. Sections that list them stay hidden
-// (or show a neutral notice) while these are empty.
-const projects: readonly Project[] = [];
-const partners: readonly Partner[] = [];
 
 export const COMPANY = {
   name: "PRO-INTEQ Engineering and Consulting Company Limited",
   shortName: "PRO-INTEQ",
-  tagline: "Precision in every project",
+  tagline: "Precision in every project.",
   principle: "Engineering with honesty, ensuring reliability.",
-
-  sectors: [
-    "Mechanical",
-    "Electrical",
-    "Telecommunication",
-    "Civil Construction",
-    "ICT",
-    "General Supply",
-  ],
+  positioning: "Engineering | Technical Services | Industrial Supply",
+  positioningStatement: "Engineering and industrial solutions for demanding projects across Tanzania.",
 
   description:
-    "PRO-INTEQ Engineering and Consulting Company Limited is a Tanzanian private limited engineering company providing reliable engineering solutions in Mechanical, Electrical, Telecommunication, Civil Construction, ICT and General Supply sectors.",
+    "PRO-INTEQ Engineering and Consulting Company Limited is a Tanzanian multidisciplinary engineering, technical services and industrial supply company based in Dar es Salaam.",
 
-  positioning:
-    "The company operates as a technical contractor and engineering service provider supporting telecom companies, construction firms, government institutions, industries and private organizations.",
+  coverage: "Tanzania, including Zanzibar, and projects where the company is engaged elsewhere.",
 
-  registration:
-    "Registered as a private limited company under the Companies Act.",
+  // Official Mission and Vision statements. Left empty until the company's
+  // approved wording is confirmed; pages show them only when set.
+  vision: null as string | null,
+  mission: null as string | null,
 
-  mainObjective:
-    "To provide reliable, innovative, and professional engineering solutions across Mechanical, Electrical, Telecommunication, Civil Construction, ICT, and General Supply sectors while delivering safe, efficient, and sustainable infrastructure solutions that create long-term value for clients, partners, and communities.",
-
-  vision: "To become a benchmark engineering firm in Africa.",
-
-  mission:
-    "To provide integrated engineering and consulting services with excellence, safety, integrity, technical precision, and long-term value.",
+  leadership: [
+    { name: "Eng. Moses Prosper Odindo", role: "Managing Director" },
+  ] satisfies Leader[],
 
   contact: {
     email: "prointeq.engineering@gmail.com",
@@ -77,500 +54,106 @@ export const COMPANY = {
     },
   },
 
-  coreValues: [
+  values: [
     {
-      title: "Quality Workmanship",
-      description:
-        "Delivering engineering works to the highest standards of technical quality and craftsmanship.",
+      title: "Quality workmanship",
+      description: "Engineering work delivered to specification and to a standard we are prepared to stand behind.",
     },
     {
-      title: "Integrity and Accountability",
-      description:
-        "Operating with honesty, transparency, and responsibility in every project engagement.",
+      title: "Integrity and accountability",
+      description: "Honest technical advice, transparent communication and ownership of our commitments.",
     },
     {
       title: "Professionalism",
-      description:
-        "Maintaining disciplined, competent, and ethical conduct across all engineering operations.",
+      description: "Disciplined, competent and ethical conduct on every site and in every engagement.",
     },
     {
-      title: "Safety and Environmental Care",
-      description:
-        "Protecting people, communities, and the environment through safe and responsible practices.",
+      title: "Safety and environmental care",
+      description: "Protecting people, property and the environment through safe working practices.",
     },
     {
-      title: "Customer Satisfaction",
-      description:
-        "Building lasting client relationships through reliable delivery and responsive service.",
+      title: "Customer satisfaction",
+      description: "Responsive service and reliable delivery that build long-term working relationships.",
     },
     {
-      title: "Cost Efficiency through Proper Planning",
-      description:
-        "Planning work properly to provide value-driven solutions that optimize resources without compromising quality.",
+      title: "Cost efficiency through proper planning",
+      description: "Careful planning that controls cost without compromising quality or safety.",
     },
   ],
 
-  industries: [
-    {
-      name: "Telecommunications",
-      description:
-        "Telecom infrastructure, BTS installation, fiber optic networks, and integrated site maintenance.",
-    },
-    {
-      name: "Construction",
-      description:
-        "Civil works, tower erection, building construction, and infrastructure development.",
-    },
-    {
-      name: "Government Institutions",
-      description:
-        "Reliable engineering and technical services for public institutions and infrastructure programmes.",
-    },
-    {
-      name: "Industrial Facilities",
-      description:
-        "Mechanical, electrical, and automation support for industrial plants and facilities.",
-    },
-    {
-      name: "Commercial Facilities",
-      description:
-        "Engineering, ICT, and security systems for commercial buildings and businesses.",
-    },
-    {
-      name: "Private Organizations",
-      description:
-        "Tailored engineering and consulting services for private clients and developments.",
-    },
-    {
-      name: "Infrastructure Projects",
-      description:
-        "Multidisciplinary engineering for infrastructure development and public works.",
-    },
-    {
-      name: "Energy & Electrical Infrastructure",
-      description:
-        "Power generation, distribution, substations, and renewable energy solutions.",
-    },
-  ] satisfies Industry[],
+  lifecycle: [
+    { title: "Design", description: "Engineering design, specifications and technical planning." },
+    { title: "Supply", description: "Sourcing of equipment, materials and consumables to specification." },
+    { title: "Installation", description: "Installation and construction by supervised technical teams." },
+    { title: "Testing & Commissioning", description: "Testing, commissioning and handover of installed systems." },
+    { title: "Maintenance", description: "Preventive and corrective maintenance and technical support." },
+  ],
 
-  // Short summaries for the home page; `id` matches `serviceGroups[].id`.
-  servicePreviews: [
+  procurementProcess: [
+    { title: "Requirement", description: "We receive your requirement, drawings or material list." },
+    { title: "Specification", description: "Technical review to confirm specifications and compatibility." },
+    { title: "Sourcing", description: "Products sourced from suitable manufacturers and suppliers." },
+    { title: "Quotation", description: "A clear quotation for review and approval." },
+    { title: "Supply", description: "Order placement and coordination of the supply." },
+    { title: "Delivery", description: "Delivery to site or store as agreed with the client." },
+  ],
+
+  whyChoose: [
     {
-      id: "consultancy",
-      title: "Engineering Consultancy Services",
-      description:
-        "Professional advisory, design, feasibility studies, and project management for engineering projects.",
-      icon: "consultancy",
+      title: "Multidisciplinary engineering",
+      description: "Mechanical, electrical, HVAC, ICT, civil and security disciplines under one company.",
     },
     {
-      id: "electrical",
-      title: "Electrical Engineering Works",
-      description:
-        "Power systems, electrical installation, industrial automation, and renewable energy solutions.",
-      icon: "electrical",
+      title: "Integrated project support",
+      description: "One partner from design and supply through installation, commissioning and maintenance.",
     },
     {
-      id: "electrical-supply",
-      title: "Electrical Materials Supply",
-      description:
-        "Supply of quality electrical cables, panels, fittings, and components for engineering projects.",
-      icon: "supply",
+      title: "Technical supply capability",
+      description: "Sourcing of equipment and materials reviewed against engineering requirements.",
     },
     {
-      id: "telecom",
-      title: "Telecommunication, ICT and Security Systems",
-      description:
-        "Telecom infrastructure, BTS installation, network solutions, and integrated security systems.",
-      icon: "telecom",
+      title: "Project-focused execution",
+      description: "Work planned around your programme, site conditions and specifications.",
     },
     {
-      id: "fiber",
-      title: "Fiber Optic Solutions",
-      description:
-        "End-to-end fiber optic network design, installation, testing, and maintenance services.",
-      icon: "fiber",
+      title: "Safety & quality",
+      description: "Safe working practices, inspection and testing built into how we deliver.",
     },
     {
-      id: "civil",
-      title: "Civil Works, Tower Erection and Construction",
-      description:
-        "Civil infrastructure, tower erection, building construction, and infrastructure development.",
-      icon: "civil",
-    },
-    {
-      id: "mechanical",
-      title: "Mechanical Works",
-      description:
-        "HVAC systems, piping, industrial mechanical maintenance, and machinery installation.",
-      icon: "mechanical",
-    },
-    {
-      id: "general-supply",
-      title: "General Supply Services",
-      description:
-        "Procurement and supply of engineering materials, equipment, and industrial components.",
-      icon: "supply",
+      title: "Responsive technical support",
+      description: "Clear communication and practical support during and after the project.",
     },
   ],
 
-  capabilities: [
-    "Multidisciplinary engineering contracting across six core sectors",
-    "Technical support for telecom, construction, government, and industrial clients",
-    "End-to-end project delivery from consultancy through installation and maintenance",
-    "Integrated ICT, telecommunication, and security system solutions",
-    "Civil and structural works including tower erection and infrastructure development",
-    "Procurement, logistics, and general supply for engineering projects",
-    "Health, Safety and Environmental (HSE) compliance across all operations",
-  ],
-
-  hsePolicy: [
+  hse: [
     {
-      title: "Safety Commitment",
+      title: "Health & Safety",
       description:
-        "PRO-INTEQ is committed to maintaining a safe working environment for all employees, contractors, clients, and communities affected by our operations.",
+        "Work is planned to protect our people, client staff and the public. Teams use appropriate personal protective equipment, follow site safety rules and stop work where conditions are unsafe.",
     },
     {
-      title: "Environmental Responsibility",
+      title: "Quality Assurance",
       description:
-        "We conduct our engineering activities with care for the environment, minimizing ecological impact and promoting sustainable infrastructure practices.",
+        "Work is checked against drawings, specifications and manufacturer requirements, with issues recorded and corrected before handover.",
     },
     {
-      title: "Employee Protection",
+      title: "Compliance",
       description:
-        "We protect the health and wellbeing of our workforce through proper training, protective equipment, and adherence to safety protocols on every project site.",
+        "We work to the client's site requirements and the applicable Tanzanian regulations, standards and permits for each scope of work.",
     },
     {
-      title: "Emergency Response",
+      title: "Inspection & Testing",
       description:
-        "We maintain preparedness for emergency situations through established response procedures, communication protocols, and site-specific safety plans.",
+        "Installed systems are inspected, tested and commissioned before handover, and results are shared with the client.",
     },
     {
       title: "Continuous Improvement",
       description:
-        "We continuously review and improve our HSE practices, learning from experience and adopting best practices across all engineering disciplines.",
-    },
-    {
-      title: "Safe Engineering Practices",
-      description:
-        "Safe engineering practices are integrated into every stage of our project lifecycle — from planning and design through execution, commissioning, and maintenance.",
+        "Lessons from each project are reviewed to improve planning, safety practices and the quality of future work.",
     },
   ],
 
-  hseSummary:
-    "Health, Safety and Environmental (HSE) responsibility is integrated into every stage of our work — protecting people, communities, and the environment while delivering reliable engineering solutions.",
-
-  approach: [
-    {
-      step: "01",
-      title: "Consultation",
-      description:
-        "We discuss your objectives, scope, and constraints to understand the project and how PRO-INTEQ can support it.",
-    },
-    {
-      step: "02",
-      title: "Site Assessment & Requirements Analysis",
-      description:
-        "We assess site conditions and analyze technical requirements to define a sound engineering approach.",
-    },
-    {
-      step: "03",
-      title: "Engineering Design & Planning",
-      description:
-        "Our engineers prepare designs, drawings, and execution plans tailored to your project requirements.",
-    },
-    {
-      step: "04",
-      title: "Procurement & Material Supply",
-      description:
-        "We source and supply quality engineering materials and equipment to support reliable project delivery.",
-    },
-    {
-      step: "05",
-      title: "Installation & Construction",
-      description:
-        "Our teams carry out installation, erection, and construction works to specification and accepted standards.",
-    },
-    {
-      step: "06",
-      title: "Testing & Commissioning",
-      description:
-        "We test systems and commission installations to verify performance, safety, and readiness.",
-    },
-    {
-      step: "07",
-      title: "Maintenance & After-Sales Support",
-      description:
-        "We provide ongoing maintenance and after-sales support to sustain performance and extend asset life.",
-    },
-  ],
-
-  serviceGroups: [
-    {
-      id: "consultancy",
-      title: "Engineering Consultancy Services",
-      icon: "consultancy",
-      overview: "Technical advisory and engineering design support across disciplines.",
-      description:
-        "PRO-INTEQ helps clients make informed engineering decisions and de-risk projects through professional consultancy. Our advisory and design services support infrastructure development and power systems, improving planning accuracy, technical coordination, and the long-term performance of engineered assets.",
-      items: [
-        "Electrical engineering design",
-        "Power systems",
-        "Infrastructure development",
-        "Structural and electrical design coordination",
-        "Feasibility studies and analysis",
-        "Project management",
-        "Electrical substation maintenance",
-        "Generator systems consultancy and support",
-        "Technical planning and engineering coordination",
-      ],
-    },
-    {
-      id: "electrical",
-      title: "Electrical Engineering Works",
-      icon: "electrical",
-      overview: "End-to-end electrical installation, power, and automation.",
-      description:
-        "We deliver safe, compliant electrical systems that keep facilities powered and productive. From power generation, transmission, and distribution to automation and renewable energy, our electrical works reduce downtime, improve energy efficiency, and support reliable operation of industrial, commercial, and infrastructure assets.",
-      items: [
-        "Power generation and backup systems",
-        "Generator installation, commissioning and maintenance",
-        "Power transmission and distribution",
-        "Power transformers",
-        "High-voltage substations",
-        "Distribution boards",
-        "Electrical installations",
-        "Building electrical fit-outs",
-        "Electrical maintenance",
-        "Electrical safety compliance",
-        "Industrial electrical and automation systems",
-        "PLC and automation",
-        "Motor and alternator rewinding",
-        "Elevator electrical systems",
-        "HVAC electrical installations",
-        "Solar power",
-        "Energy storage systems",
-        "Energy-efficient lighting",
-      ],
-    },
-    {
-      id: "electrical-supply",
-      title: "Electrical Materials Supply",
-      icon: "supply",
-      overview: "Quality electrical components and materials.",
-      description:
-        "PRO-INTEQ supplies quality electrical materials that support dependable installations and maintenance. By sourcing distribution boards, switchgear, cables, lighting, and substation materials, we help clients control project schedules and assure component quality across the supply chain.",
-      items: [
-        "Distribution boards",
-        "Circuit breakers",
-        "Switchgear and control panels",
-        "Cables",
-        "Cable management",
-        "Lighting systems",
-        "Generators",
-        "ATS",
-        "Batteries",
-        "Solar components",
-        "Earthing and lightning protection",
-        "Transformers and substation materials",
-      ],
-    },
-    {
-      id: "telecom",
-      title: "Telecommunication, ICT and Security Systems",
-      icon: "telecom",
-      overview: "Telecom infrastructure, networks, and integrated security.",
-      description:
-        "We build and maintain the connectivity and security foundations that modern operations depend on. Our telecom, ICT, and security services support network rollout, site commissioning, and protected environments — improving communication reliability, operational visibility, and asset security.",
-      items: [
-        "Telecom infrastructure project management",
-        "Telecom equipment installation and commissioning",
-        "BTS",
-        "Antenna and feeder systems",
-        "RF and microwave installations",
-        "RF sweep testing",
-        "Transmission systems",
-        "Site acceptance testing",
-        "Radio communication systems",
-        "Structured cabling",
-        "LAN/WAN",
-        "Wireless networking",
-        "IP and Hybrid PABX",
-        "Network security",
-        "Firewall systems",
-        "CCTV",
-        "Access control",
-        "Intruder alarms",
-        "Time and attendance systems",
-        "Electronic security systems",
-      ],
-    },
-    {
-      id: "fiber",
-      title: "Fiber Optic Solutions",
-      icon: "fiber",
-      overview: "Full-cycle fiber optic network delivery.",
-      description:
-        "PRO-INTEQ delivers end-to-end fiber optic networks that provide the high-capacity backbone for telecom and enterprise connectivity. From survey and design through civil works, splicing, and commissioning, our fiber services enable faster, more reliable data transport with predictable project outcomes.",
-      items: [
-        "Planning",
-        "Survey",
-        "Cable route mapping",
-        "Fiber network design",
-        "Bill of Materials preparation",
-        "Right of Way coordination",
-        "Regulatory permits",
-        "Trenching",
-        "Duct installation",
-        "Fiber cable laying",
-        "In-building fiber routing",
-        "Splicing",
-        "Termination",
-        "ODF and patch panels",
-        "Fiber testing",
-        "Commissioning",
-      ],
-    },
-    {
-      id: "civil",
-      title: "Civil Works, Tower Erection and Construction",
-      icon: "civil",
-      overview: "Civil infrastructure and structural construction.",
-      description:
-        "We construct the physical infrastructure that supports networks, power, and industry. Our civil, tower, and building works provide durable, safely executed structures — from roads and pipelines to telecom sites and industrial premises — delivered to specification and programme.",
-      items: [
-        "Civil infrastructure",
-        "Roads",
-        "Bridges",
-        "Railways",
-        "Pipelines",
-        "Tower erection",
-        "Telecom site civil works",
-        "Power and industrial structures",
-        "Building construction",
-        "Commercial buildings",
-        "Residential buildings",
-        "Industrial premises",
-        "Refurbishment and renovation",
-        "Construction material supply",
-        "Manpower supply",
-      ],
-    },
-    {
-      id: "mechanical",
-      title: "Mechanical Works",
-      icon: "mechanical",
-      overview: "Mechanical systems, fabrication, and maintenance.",
-      description:
-        "PRO-INTEQ keeps mechanical and building systems running through expert installation, fabrication, and maintenance. Covering HVAC, lifts, piping, pumps, and industrial automation, our mechanical services improve comfort, safety, and equipment reliability across commercial and industrial facilities.",
-      items: [
-        "HVAC",
-        "Elevator installation",
-        "Escalator installation",
-        "Travellator systems",
-        "Piping",
-        "Plumbing",
-        "Firefighting systems",
-        "Pumps",
-        "Boilers and steam systems",
-        "Compressed air systems",
-        "Industrial fabrication",
-        "Welding",
-        "Machinery installation",
-        "Machinery alignment",
-        "Compressors and conveyors",
-        "Mechanical maintenance",
-        "Retrofitting",
-        "Machining",
-        "Industrial automation",
-      ],
-    },
-    {
-      id: "general-supply",
-      title: "General Supply",
-      icon: "supply",
-      overview: "Procurement and supply of engineering materials.",
-      description:
-        "We provide a dependable supply of engineering materials and equipment that keeps projects moving. By consolidating sourcing of electrical, mechanical, telecom, and safety items, PRO-INTEQ helps clients simplify procurement and maintain consistent material quality.",
-      items: [
-        "Engineering materials and equipment",
-        "Electrical and mechanical components",
-        "Telecom and ICT supplies",
-        "Industrial spare parts",
-        "Safety and protective equipment",
-        "Tools and consumables",
-        "Construction materials",
-      ],
-    },
-  ],
-
-  team: [
-    {
-      name: "Eng. Moses Prosper",
-      role: "Managing Director",
-      profile:
-        "Managing Director of PRO-INTEQ, providing strategic leadership across the company's multidisciplinary engineering, contracting, consulting, and supply services.",
-      photo: "",
-    },
-  ],
-
-  teamNote:
-    "PRO-INTEQ is building a multidisciplinary team of engineers and technicians across mechanical, electrical, telecommunication, civil, and ICT disciplines. Additional leadership and team profiles will be published here as they are confirmed.",
-
-  teamDisciplines: [
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Telecommunication & ICT",
-    "Civil & Construction",
-    "Health, Safety & Environment",
-  ],
-
-  partnersNote:
-    "PRO-INTEQ works with clients, technology partners, and suppliers across the engineering and infrastructure sectors.",
-
-  partners,
-
-  projects,
-
-  projectNote:
-    "PRO-INTEQ is compiling a portfolio of completed engineering projects. Detailed case studies will be published here as they are confirmed.",
-
-  // Mirrors the company organization chart (public/company organization.jpg).
-  organization: {
-    board: "Board of Directors",
-    executive: { title: "Director & CEO" },
-    managingDirector: {
-      name: "Eng. Moses Prosper",
-      title: "Managing Director",
-    },
-    management: [
-      { title: "Technical Director" },
-      { title: "Administration & Finance" },
-    ],
-    departments: [
-      {
-        title: "Telecommunication, ICT & Security System",
-        roles: ["Project Manager", "Supervisors", "Engineers", "Technicians"],
-      },
-      {
-        title: "Mechanical Department",
-        roles: ["Mechanical Supervisors", "Engineers", "Technicians"],
-      },
-      {
-        title: "Electrical Department",
-        roles: ["Project Manager", "Supervisors", "Engineers", "Technicians"],
-      },
-      {
-        title: "Civil & Building Department",
-        roles: ["Project Manager", "Supervisors", "Engineers", "Technicians"],
-      },
-      {
-        title: "Procurement & Logistic",
-        roles: ["Managers & Officers"],
-      },
-      {
-        title: "Health, Safety & Environmental",
-        roles: ["HSE Manager"],
-      },
-    ],
-  },
+  // Confirmed project case studies only. The Projects page shows a neutral
+  // notice while this list is empty.
+  projects: [] as readonly Project[],
 } as const;

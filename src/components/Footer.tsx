@@ -1,83 +1,100 @@
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import { Container } from "@/components/ui";
 import { COMPANY } from "@/lib/company";
-import { MAIN_NAV } from "@/lib/site";
+import { QUOTE_HREF } from "@/lib/site";
+
+const columns = [
+  {
+    title: "Company",
+    links: [
+      { href: "/about", label: "About Us" },
+      { href: "/services", label: "Services" },
+      { href: "/industries", label: "Industries" },
+      { href: "/projects", label: "Projects" },
+      { href: "/hse-quality", label: "HSE & Quality" },
+    ],
+  },
+  {
+    title: "Solutions",
+    links: [
+      { href: "/services", label: "Engineering" },
+      { href: "/services#maintenance", label: "Technical Services" },
+      { href: "/supply-procurement", label: "Supply & Procurement" },
+    ],
+  },
+  {
+    title: "Support",
+    links: [
+      { href: "/company-profile", label: "Company Profile" },
+      { href: QUOTE_HREF, label: "Request a Quote" },
+      { href: "/contact", label: "Contact" },
+    ],
+  },
+];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const headingClass = "mb-4 text-sm font-semibold uppercase tracking-wider text-white";
-  const linkClass = "text-sm transition-colors hover:text-white";
+  const linkClass = "text-sm text-white/70 transition-colors hover:text-white";
 
   return (
-    <footer className="bg-brand-950 text-gray-300">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="on-dark bg-navy text-white">
+      <Container className="py-16">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_repeat(3,1fr)_1.4fr]">
           <div>
             <Logo variant="footer" />
-            <p className="mt-5 text-sm leading-relaxed">{COMPANY.name}</p>
-            <p className="mt-2 text-sm italic leading-relaxed text-brand-200">
-              {COMPANY.principle}
-            </p>
+            <p className="mt-6 text-sm leading-relaxed text-white/70">{COMPANY.name}</p>
+            <p className="mt-2 text-sm font-semibold text-white">{COMPANY.tagline}</p>
+            <p className="mt-1 text-sm italic text-primary-light">{COMPANY.principle}</p>
           </div>
 
-          <nav aria-label="Footer">
-            <h2 className={headingClass}>Quick Links</h2>
-            <ul className="space-y-3">
-              {MAIN_NAV.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className={linkClass}>
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {columns.map((column) => (
+            <nav key={column.title} aria-label={column.title}>
+              <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white">{column.title}</h2>
+              <ul className="space-y-3">
+                {column.links.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href} className={linkClass}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
 
           <div>
-            <h2 className={headingClass}>Services</h2>
-            <ul className="space-y-3">
-              {COMPANY.serviceGroups.map((group) => (
-                <li key={group.id}>
-                  <Link href={`/services#${group.id}`} className={linkClass}>
-                    {group.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h2 className={headingClass}>Contact</h2>
-            <address className="space-y-4 text-sm not-italic">
+            <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white">Contact</h2>
+            <address className="space-y-3 text-sm not-italic text-white/70">
+              <p className="whitespace-pre-line">{COMPANY.contact.location}</p>
               <p>
-                <span className="block text-xs uppercase tracking-wider text-gray-400">Email</span>
-                <a href={`mailto:${COMPANY.contact.email}`} className={`${linkClass} break-all`}>
+                <a href={`mailto:${COMPANY.contact.email}`} className="break-all hover:text-white">
                   {COMPANY.contact.email}
                 </a>
               </p>
-              <p>
-                <span className="block text-xs uppercase tracking-wider text-gray-400">Phone</span>
-                {COMPANY.contact.phones.map((phone) => (
-                  <a key={phone} href={`tel:${phone.replace(/\s/g, "")}`} className={`${linkClass} block`}>
+              {COMPANY.contact.phones.map((phone) => (
+                <p key={phone}>
+                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="hover:text-white">
                     {phone}
                   </a>
-                ))}
-              </p>
-              <p>
-                <span className="block text-xs uppercase tracking-wider text-gray-400">Location</span>
-                <span className="whitespace-pre-line">{COMPANY.contact.location}</span>
-              </p>
+                </p>
+              ))}
             </address>
           </div>
         </div>
 
-        <div className="mt-12 space-y-2 border-t border-white/10 pt-8 text-center text-xs text-gray-400 sm:text-sm">
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/15 pt-8 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
           <p>
             &copy; {currentYear} {COMPANY.name}. All rights reserved.
           </p>
-          <p>Photography on this website is illustrative of the engineering disciplines we work in.</p>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <Link href="/privacy" className="hover:text-white">
+              Privacy Policy
+            </Link>
+            <span>Some photographs are illustrative of the disciplines we work in.</span>
+          </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }
