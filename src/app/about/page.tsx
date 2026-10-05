@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
 });
 
 export default function AboutPage() {
-  // Mission and Vision appear only once the official wording is set in company.ts.
+  // Mission and Vision are quoted from the official company profile.
   const statements = [
     { label: "Mission", text: COMPANY.mission },
     { label: "Vision", text: COMPANY.vision },
@@ -32,7 +32,7 @@ export default function AboutPage() {
         title="Engineering a more reliable future"
         breadcrumb="About Us"
         description={COMPANY.positioningStatement}
-        image={IMAGES.projectManagement}
+        image={IMAGES.cabinetTesting}
       />
 
       <Section>
@@ -49,6 +49,16 @@ export default function AboutPage() {
               </p>
               <p>Service coverage: {COMPANY.coverage}</p>
             </div>
+            <dl className="mt-8 grid gap-4 border-t border-line pt-6 text-sm sm:grid-cols-3">
+              <div className="sm:col-span-3">
+                <dt className="text-xs font-semibold uppercase tracking-widest text-primary">Legal form</dt>
+                <dd className="mt-1 text-navy">{COMPANY.registration.legalForm}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-widest text-primary">Incorporation No.</dt>
+                <dd className="mt-1 text-navy">{COMPANY.registration.incorporationNumber}</dd>
+              </div>
+            </dl>
           </div>
           <figure>
             <SiteImage
@@ -91,11 +101,29 @@ export default function AboutPage() {
 
       <Section id="leadership">
         <SectionHeading eyebrow="Leadership" title="Company leadership" />
-        <LeadershipGrid />
-        <div className="mt-8">
-          <ButtonLink href="/about/organization" variant="secondary" arrow>
-            Organization Structure
-          </ButtonLink>
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+          <div>
+            <LeadershipGrid />
+            <div className="mt-8">
+              <ButtonLink href="/about/organization" variant="secondary" arrow>
+                Organization Structure
+              </ButtonLink>
+            </div>
+          </div>
+          <figure className="border-l-4 border-primary pl-6">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Message from the Managing Director
+            </h3>
+            <blockquote className="mt-4 space-y-4 leading-relaxed text-ink">
+              {COMPANY.managingDirectorMessage.map((paragraph) => (
+                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+              ))}
+            </blockquote>
+            <figcaption className="mt-5 text-sm">
+              <span className="font-semibold text-navy">{COMPANY.leadership[0].name}</span>
+              <span className="block text-muted">{COMPANY.leadership[0].role}</span>
+            </figcaption>
+          </figure>
         </div>
       </Section>
 

@@ -248,8 +248,8 @@ export default function Home() {
           <div>
             <SectionHeading
               eyebrow="Projects"
-              title="Project case studies"
-              description="Case studies covering scope, PRO-INTEQ's role and results are published once project details are confirmed for publication."
+              title={COMPANY.projects[0]?.title ?? "Project work"}
+              description="PRO-INTEQ technicians installing and testing data cabling and network infrastructure on site — documented with our own photographs."
             />
             <ButtonLink href="/projects" variant="primary" arrow>
               View Projects
@@ -257,7 +257,7 @@ export default function Home() {
           </div>
           <figure>
             <div className="grid grid-cols-2 gap-4">
-              {[IMAGES.networkCabinet, IMAGES.securityElv].map((image) => (
+              {[IMAGES.teamCabling, IMAGES.siteSupervision].map((image) => (
                 <SiteImage
                   key={image.src}
                   src={image.src}
@@ -268,7 +268,7 @@ export default function Home() {
                 />
               ))}
             </div>
-            <figcaption className="mt-3 text-xs text-muted">Illustrative: network and ELV infrastructure.</figcaption>
+            <figcaption className="mt-3 text-xs text-muted">PRO-INTEQ team on site.</figcaption>
           </figure>
         </div>
       </Section>

@@ -1,3 +1,5 @@
+import { IMAGES } from "@/lib/assets";
+
 /**
  * Single source of truth for PRO-INTEQ website content.
  *
@@ -15,9 +17,11 @@ export interface Project {
   title: string;
   sector: string;
   description: string;
+  /** Work visible in the project photographs; no unverified scope claims. */
   scope: readonly string[];
+  /** Only add once the client has approved publication. */
   location?: string;
-  image?: { src: string; alt: string };
+  images: readonly { src: string; alt: string }[];
 }
 
 export const COMPANY = {
@@ -33,21 +37,36 @@ export const COMPANY = {
 
   coverage: "Tanzania, including Zanzibar, and projects where the company is engaged elsewhere.",
 
-  // Official Mission and Vision statements. Left empty until the company's
-  // approved wording is confirmed; pages show them only when set.
-  vision: null as string | null,
-  mission: null as string | null,
+  // Official statements, quoted from the company profile (public/documents).
+  vision: "To be a benchmark engineering firm in Africa, recognized for delivering sustainable, innovative and high-impact infrastructure solutions that shape the future of industries and communities." as string | null,
+  mission: "To deliver integrated engineering and consulting services with excellence, safety, integrity, and technical precision while creating long-term value for clients, partners, and society." as string | null,
+
+  // Registration details as stated in the company profile. The TIN is kept in
+  // the PDF only, by company request.
+  registration: {
+    legalForm: "Private limited company, limited by shares, registered under the Companies Act (Cap 212)",
+    incorporationNumber: "188222757",
+  },
 
   leadership: [
     { name: "Eng. Moses Prosper Odindo", role: "Managing Director" },
   ] satisfies Leader[],
 
+  // Excerpt from the Managing Director's message in the company profile.
+  managingDirectorMessage: [
+    "At PRO-INTEQ, we are dedicated to providing engineering solutions that are durable, secure, and reliable for our customers. We recognize that in today's environment, systems must operate accurately and consistently. Electricity must stay available, networks must remain linked, and structures must remain stable.",
+    "We are committed to the delivery of the highest standard of professional service within Tanzania, together with the development of business partnerships which are built on trust, quality, and mutual benefit.",
+    "We are customer-focused, customer-driven, and committed to providing a professional level of personalized engineering service to every client.",
+  ],
+
   contact: {
     email: "prointeq.engineering@gmail.com",
     phones: ["+255 719 303 529"],
     location: "Jamhuri / Morogoro Road,\nDar es Salaam, Tanzania",
+    postal: "P.O. Box 10839, Dar es Salaam",
     address: {
       street: "Jamhuri / Morogoro Road",
+      postOfficeBox: "10839",
       city: "Dar es Salaam",
       country: "Tanzania",
       countryCode: "TZ",
@@ -125,35 +144,66 @@ export const COMPANY = {
     },
   ],
 
+  // Aligned with the HSE policy and quality approach in the company profile.
   hse: [
     {
       title: "Health & Safety",
       description:
-        "Work is planned to protect our people, client staff and the public. Teams use appropriate personal protective equipment, follow site safety rules and stop work where conditions are unsafe.",
+        "Safe working conditions during installation, construction and engineering activities, with proper tools, equipment and personal protective equipment for every team.",
     },
     {
       title: "Quality Assurance",
       description:
-        "Work is checked against drawings, specifications and manufacturer requirements, with issues recorded and corrected before handover.",
+        "High-quality materials, clean and organised work sites, and construction in accordance with approved drawings and contract specifications.",
     },
     {
       title: "Compliance",
       description:
-        "We work to the client's site requirements and the applicable Tanzanian regulations, standards and permits for each scope of work.",
+        "Compliance with building regulations, statutory requirements and planning conditions, and adherence to industry best practice.",
     },
     {
       title: "Inspection & Testing",
       description:
-        "Installed systems are inspected, tested and commissioned before handover, and results are shared with the client.",
+        "Regular testing of safety systems, tools and procedures, and testing and commissioning of installed systems before handover.",
     },
     {
       title: "Continuous Improvement",
       description:
-        "Lessons from each project are reviewed to improve planning, safety practices and the quality of future work.",
+        "Measurable HSE performance indicators monitored through internal audits, periodic reviews and third-party audits to identify areas for improvement.",
     },
   ],
 
-  // Confirmed project case studies only. The Projects page shows a neutral
-  // notice while this list is empty.
-  projects: [] as readonly Project[],
+  hseCommitments: [
+    "Monitoring the health and wellbeing of employees so they are not adversely affected by their work environment",
+    "Effective emergency response procedures and resources to minimise the impact of accidents at work sites",
+    "Telecommunications engineering kits, installation tools and work procedures that meet engineering safety standards",
+    "A culture where safety, environmental responsibility and respect for human life are part of every project",
+  ],
+
+  // Projects documented with PRO-INTEQ's own site photographs. Client names,
+  // locations and dates are added only once approved for publication.
+  projects: [
+    {
+      title: "Structured Cabling & Network Infrastructure",
+      sector: "Telecommunications & ICT",
+      description:
+        "Data cabling and network infrastructure installation in a multi-floor building, carried out and supervised by PRO-INTEQ technicians.",
+      scope: [
+        "Routing of bundled, labelled data cabling",
+        "Network cabinet installation and cable management",
+        "Rack-mounted switches labelled by floor, Wi-Fi and CCTV",
+        "On-site testing and verification",
+        "Supervision of installation works on site",
+      ],
+      images: [
+        IMAGES.teamCabling,
+        IMAGES.cabinetTesting,
+        IMAGES.siteSupervision,
+        IMAGES.cableInstallation,
+        IMAGES.networkCabinet,
+        IMAGES.securityElv,
+        IMAGES.cablingCoordination,
+      ],
+    },
+  ] as readonly Project[],
 } as const;

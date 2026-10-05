@@ -13,7 +13,7 @@ type ButtonVariant = "primary" | "secondary" | "light" | "outline-light";
 export function CompanyProfileButton({ variant = "primary" }: { variant?: ButtonVariant }) {
   if (COMPANY_PROFILE_PDF) {
     return (
-      <ButtonLink href={COMPANY_PROFILE_PDF.href} variant={variant} download="">
+      <ButtonLink href={COMPANY_PROFILE_PDF.href} variant={variant} download={COMPANY_PROFILE_PDF.filename}>
         <Download className="h-4 w-4" aria-hidden="true" />
         Download Company Profile
       </ButtonLink>
@@ -37,11 +37,11 @@ export function CompanyProfileCta() {
           <h2 className="font-display text-2xl font-bold text-navy sm:text-3xl">
             Explore our company profile, capabilities and areas of expertise.
           </h2>
-          {!COMPANY_PROFILE_PDF && (
-            <p className="mt-3 text-sm text-muted">
-              The downloadable profile is being finalised. Request a copy and we will send it by email.
-            </p>
-          )}
+          <p className="mt-3 text-sm text-muted">
+            {COMPANY_PROFILE_PDF
+              ? `Official company profile (${COMPANY_PROFILE_PDF.sizeLabel}).`
+              : "Request a copy of our company profile and we will send it by email."}
+          </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
           <CompanyProfileButton />

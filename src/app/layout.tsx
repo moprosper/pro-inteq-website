@@ -63,6 +63,7 @@ const organizationJsonLd = {
   address: {
     "@type": "PostalAddress",
     streetAddress: COMPANY.contact.address.street,
+    postOfficeBoxNumber: COMPANY.contact.address.postOfficeBox,
     addressLocality: COMPANY.contact.address.city,
     addressCountry: COMPANY.contact.address.countryCode,
   },

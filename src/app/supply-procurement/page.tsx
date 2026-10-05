@@ -17,10 +17,12 @@ export const metadata = pageMetadata({
   path: "/supply-procurement",
 });
 
+// "Our Supply Advantage", company profile.
 const advantages = [
-  "Requirements reviewed by engineers before sourcing",
-  "Products sourced to your specifications and standards",
-  "Single point of contact from quotation to delivery",
+  "Quality-assured materials from trusted manufacturers",
+  "Compliance with engineering and safety standards",
+  "Technical support in material selection based on project requirements",
+  "Ability to supply in bulk for large projects",
   "Supply can be combined with installation and commissioning",
 ];
 

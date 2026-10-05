@@ -24,10 +24,14 @@ export default function CompanyProfilePage() {
   const facts = [
     { label: "Company", value: COMPANY.name },
     { label: "Positioning", value: COMPANY.positioning },
-    { label: "Headquarters", value: "Dar es Salaam, Tanzania" },
+    { label: "Legal form", value: COMPANY.registration.legalForm },
+    { label: "Incorporation No.", value: COMPANY.registration.incorporationNumber },
+    { label: "Headquarters", value: `Dar es Salaam, Tanzania (${COMPANY.contact.postal})` },
     { label: "Service coverage", value: COMPANY.coverage },
+    { label: "Managing Director", value: COMPANY.leadership[0].name },
     { label: "Tagline", value: COMPANY.tagline },
     { label: "Principle", value: COMPANY.principle },
+    { label: "Headline", value: "Engineering with Purpose. Delivered with Precision." },
   ];
 
   return (
@@ -51,12 +55,19 @@ export default function CompanyProfilePage() {
               maintenance — for clients in mining, manufacturing, energy, telecommunications, infrastructure and the
               commercial sector.
             </p>
-            {!COMPANY_PROFILE_PDF && (
-              <p className="mt-6 rounded-md border border-line bg-surface p-4 text-sm text-muted">
-                The downloadable PDF company profile is being finalised. Use &ldquo;Request Company Profile&rdquo;
-                and we will email you a copy.
-              </p>
-            )}
+            <p className="mt-6 rounded-md border border-line bg-surface p-4 text-sm text-muted">
+              {COMPANY_PROFILE_PDF ? (
+                <>
+                  The full company profile — services, HSE policy and organization structure — is available as a{" "}
+                  <a href={COMPANY_PROFILE_PDF.href} className="font-semibold text-primary underline" target="_blank" rel="noopener">
+                    PDF document
+                  </a>{" "}
+                  ({COMPANY_PROFILE_PDF.sizeLabel}).
+                </>
+              ) : (
+                "Use “Request Company Profile” and we will email you a copy."
+              )}
+            </p>
           </div>
           <dl className="divide-y divide-line rounded-lg border border-line">
             {facts.map((fact) => (

@@ -1,4 +1,5 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import PageLayout from "@/components/PageLayout";
 import SiteImage from "@/components/SiteImage";
@@ -8,12 +9,13 @@ import { ButtonLink, Section, SectionHeading } from "@/components/ui";
 import { IMAGES } from "@/lib/assets";
 import { COMPANY } from "@/lib/company";
 import { pageMetadata } from "@/lib/metadata";
+import { PROJECT_TYPES } from "@/lib/project-types";
 import { QUOTE_HREF } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Projects",
   description:
-    "PRO-INTEQ project case studies are published once client, scope and project details are confirmed for publication.",
+    "PRO-INTEQ project work, including structured cabling and network infrastructure, and the HVAC, pump, power, telecom, civil and mechanical projects we deliver.",
   path: "/projects",
 });
 
@@ -24,71 +26,121 @@ export default function ProjectsPage() {
     <PageLayout>
       <PageHero
         eyebrow="Projects"
-        title="Project work"
+        title="Our Project Experience"
         breadcrumb="Projects"
-        description="Accurate project information matters more to us than a long list. Case studies appear here once client, scope and outcome details are confirmed for publication."
+        description="Explore selected engineering, installation, maintenance and technical works undertaken by PRO-INTEQ, reflecting our multidisciplinary capabilities, practical expertise and commitment to reliable project delivery."
+        image={IMAGES.cablingCoordination}
       />
 
-      {projects.length > 0 ? (
-        <Section>
-          <SectionHeading eyebrow="Case studies" title="Selected projects" />
-          <ul className="grid gap-8 md:grid-cols-2">
-            {projects.map((project) => (
-              <li key={project.title}>
-                <article className="h-full overflow-hidden rounded-lg border border-line bg-white">
-                  {project.image && (
-                    <div className="relative aspect-[16/10]">
-                      <Image
-                        src={project.image.src}
-                        alt={project.image.alt}
-                        fill
-                        sizes="(min-width: 768px) 600px, 100vw"
-                        className="object-cover"
-                      />
+      {projects.map((project, index) => {
+        const [lead, ...gallery] = project.images;
+        return (
+          <Section key={project.title} tone={index % 2 ? "surface" : "white"}>
+            <div className="grid items-start gap-12 lg:grid-cols-2">
+              <div>
+                <SectionHeading eyebrow={project.sector} title={project.title} description={project.description} />
+                {project.location && (
+                  <p className="-mt-6 mb-8 text-sm font-semibold text-navy">Location: {project.location}</p>
+                )}
+                <h3 className="mb-4 font-display text-sm font-bold uppercase tracking-[0.15em] text-navy">
+                  Work shown
+                </h3>
+                <CheckList items={project.scope} columns={1} />
+              </div>
+              {lead && (
+                <SiteImage
+                  src={lead.src}
+                  alt={lead.alt}
+                  sizes="(min-width: 1024px) 600px, 100vw"
+                  eager={index === 0}
+                  className="aspect-[4/3]"
+                  rounded={false}
+                />
+              )}
+            </div>
+            {gallery.length > 0 && (
+              <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6" aria-label={`${project.title} photographs`}>
+                {gallery.map((image) => (
+                  <li key={image.src}>
+                    <SiteImage
+                      src={image.src}
+                      alt={image.alt}
+                      sizes="(min-width: 1024px) 240px, (min-width: 768px) 33vw, 50vw"
+                      className="aspect-square"
+                      rounded={false}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Section>
+        );
+      })}
+
+      <Section tone="surface" id="project-types">
+        <SectionHeading
+          eyebrow="Project types"
+          title="Projects we deliver"
+          description="The types of project PRO-INTEQ undertakes across its service areas. Photographs in this section are licensed illustrations of each discipline, not records of specific PRO-INTEQ projects."
+        />
+        <ul className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {PROJECT_TYPES.map((type) => {
+            const [lead, ...more] = type.images;
+            return (
+              <li key={type.title}>
+                <article className="flex h-full flex-col overflow-hidden rounded-lg border border-line bg-white">
+                  <div className="relative">
+                    <SiteImage
+                      src={lead.src}
+                      alt={lead.alt}
+                      sizes="(min-width: 1280px) 400px, (min-width: 768px) 50vw, 100vw"
+                      className="aspect-[4/3]"
+                      rounded={false}
+                    />
+                  </div>
+                  {more.length > 0 && (
+                    <div className="grid grid-cols-3 gap-1 bg-white p-1">
+                      {more.map((image) => (
+                        <SiteImage
+                          key={image.src}
+                          src={image.src}
+                          alt={image.alt}
+                          sizes="(min-width: 1280px) 130px, 33vw"
+                          className="aspect-[4/3]"
+                          rounded={false}
+                        />
+                      ))}
                     </div>
                   )}
-                  <div className="p-6 sm:p-8">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                      {project.sector}
-                      {project.location && ` · ${project.location}`}
-                    </p>
-                    <h3 className="mt-2 font-display text-xl font-bold text-navy">{project.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted">{project.description}</p>
-                    <div className="mt-5">
-                      <CheckList items={project.scope} columns={1} />
-                    </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="font-display text-lg font-bold text-navy">{type.title}</h3>
+                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{type.description}</p>
+                    <Link
+                      href={`/services#${type.serviceId}`}
+                      className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+                    >
+                      Related service <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </Link>
                   </div>
                 </article>
               </li>
-            ))}
-          </ul>
-        </Section>
-      ) : (
-        <Section>
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div>
-              <SectionHeading
-                eyebrow="Case studies"
-                title="Project case studies in preparation"
-                description="We are preparing case studies covering scope, PRO-INTEQ's role and results. To discuss experience relevant to your project in the meantime, please contact our team."
-              />
-              <ButtonLink href={QUOTE_HREF} arrow>
-                Discuss Your Project
-              </ButtonLink>
-            </div>
-            <figure>
-              <SiteImage
-                src={IMAGES.teamOnSite.src}
-                alt={IMAGES.teamOnSite.alt}
-                sizes="(min-width: 1024px) 600px, 100vw"
-                className="aspect-[4/3]"
-                rounded={false}
-              />
-              <figcaption className="mt-3 text-xs text-muted">PRO-INTEQ team on site.</figcaption>
-            </figure>
-          </div>
-        </Section>
-      )}
+            );
+          })}
+        </ul>
+      </Section>
+
+      <Section tone="soft">
+        <div className="max-w-3xl">
+          <SectionHeading
+            eyebrow="More case studies"
+            title="Further projects in preparation"
+            description="Additional case studies covering scope, PRO-INTEQ's role and results are added as project documentation is approved for publication. To discuss experience relevant to your project, please contact our team."
+          />
+          <ButtonLink href={QUOTE_HREF} arrow>
+            Discuss Your Project
+          </ButtonLink>
+        </div>
+      </Section>
 
       <FinalCta />
     </PageLayout>

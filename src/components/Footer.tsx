@@ -67,6 +67,7 @@ export default function Footer() {
             <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white">Contact</h2>
             <address className="space-y-3 text-sm not-italic text-white/70">
               <p className="whitespace-pre-line">{COMPANY.contact.location}</p>
+              <p>{COMPANY.contact.postal}</p>
               <p>
                 <a href={`mailto:${COMPANY.contact.email}`} className="break-all hover:text-white">
                   {COMPANY.contact.email}

@@ -2,6 +2,7 @@ import { BadgeCheck, ClipboardCheck, HardHat, RefreshCw, ScanSearch, type Lucide
 import PageHero from "@/components/PageHero";
 import PageLayout from "@/components/PageLayout";
 import SiteImage from "@/components/SiteImage";
+import { CheckList } from "@/components/cards";
 import { FinalCta } from "@/components/ctas";
 import { Section, SectionHeading } from "@/components/ui";
 import { IMAGES } from "@/lib/assets";
@@ -47,11 +48,17 @@ export default function HsePage() {
                 );
               })}
             </ul>
+            <div className="mt-10 rounded-lg border border-line bg-surface p-6 sm:p-8">
+              <h3 className="font-display text-lg font-bold text-navy">Our HSE policy also commits us to</h3>
+              <div className="mt-4">
+                <CheckList items={COMPANY.hseCommitments} columns={1} />
+              </div>
+            </div>
           </div>
           <div className="lg:sticky lg:top-28 lg:self-start">
             <SiteImage
-              src={IMAGES.siteSafety.src}
-              alt={IMAGES.siteSafety.alt}
+              src={IMAGES.hsePpe.src}
+              alt={IMAGES.hsePpe.alt}
               sizes="(min-width: 1024px) 480px, 100vw"
               className="aspect-[3/4]"
               rounded={false}

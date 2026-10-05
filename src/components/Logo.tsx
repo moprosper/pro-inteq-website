@@ -11,7 +11,7 @@ export default function Logo({ variant = "header" }: LogoProps) {
   // The logo artwork has dark lettering, so on the dark footer it sits on a
   // white plate to stay legible.
   const wrapperClass =
-    variant === "footer" ? "inline-flex rounded-lg bg-white px-3 py-2" : "inline-flex";
+    variant === "footer" ? "inline-flex rounded-lg bg-white px-3 py-2" : "inline-flex shrink-0";
 
   return (
     <Link href="/" aria-label={`${COMPANY.shortName} home`} className={wrapperClass}>
@@ -20,8 +20,8 @@ export default function Logo({ variant = "header" }: LogoProps) {
         alt={`${COMPANY.shortName} Engineering and Consulting`}
         width={LOGO.width}
         height={LOGO.height}
-        sizes="200px"
-        className="h-10 w-auto"
+        sizes="(min-width: 1280px) 130px, 110px"
+        className={variant === "header" ? "h-11 w-auto sm:h-12 xl:h-[3.25rem]" : "h-10 w-auto"}
         loading={variant === "header" ? "eager" : "lazy"}
       />
     </Link>

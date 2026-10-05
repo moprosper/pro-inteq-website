@@ -36,7 +36,12 @@ export default function ContactPage() {
     {
       icon: MapPin,
       label: "Office",
-      content: <span className="whitespace-pre-line">{COMPANY.contact.location}</span>,
+      content: (
+        <>
+          <span className="block whitespace-pre-line">{COMPANY.contact.location}</span>
+          <span className="mt-1 block text-muted">{COMPANY.contact.postal}</span>
+        </>
+      ),
     },
   ];
 
