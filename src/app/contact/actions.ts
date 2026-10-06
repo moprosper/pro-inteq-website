@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+import { sendQuoteEmail } from "@/lib/email/quote-email";
 import { isRateLimited } from "@/lib/rate-limit";
 import { REQUIREMENT_OPTIONS } from "@/lib/requirements";
 import {
@@ -84,7 +85,7 @@ async function readAttachment(
 /**
  * Handles the quotation / contact form.
  *
- * Messages are delivered through the Resend email API when RESEND_API_KEY,
+ * Messages are delivered through Resend (src/lib/email/quote-email.ts) when RESEND_API_KEY,
  * CONTACT_TO_EMAIL and CONTACT_FROM_EMAIL are configured. Without them the
  * action reports "unavailable" so the page never claims a message was sent.
  * Delivery is isolated here so it can later be swapped for a CRM or API call.
@@ -138,50 +139,9 @@ export async function submitContactForm(
     return { status: "invalid", errors, values };
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL;
-  const from = process.env.CONTACT_FROM_EMAIL;
-  if (!apiKey || !to || !from) {
-    return { status: "unavailable", values };
-  }
-
-  const text = [
-    `Name: ${values.name}`,
-    `Company: ${values.company || "Not provided"}`,
-    `Email: ${values.email}`,
-    `Phone: ${values.phone || "Not provided"}`,
-    `Requirement: ${values.requirement}`,
-    `Project location: ${values.location || "Not provided"}`,
-    `Attachment: ${attachment.file ? attachment.file.filename : "None"}`,
-    "",
-    values.message,
-  ].join("\n");
-
-  try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from,
-        to: [to],
-        reply_to: values.email,
-        subject: `Quote request: ${values.requirement} — ${values.company || values.name}`,
-        text,
-        attachments: attachment.file ? [attachment.file] : undefined,
-      }),
-      signal: AbortSignal.timeout(15_000),
-    });
-
-    if (!response.ok) {
-      console.error(`Contact form delivery failed with HTTP ${response.status}`);
-      return { status: "error", values };
-    }
-  } catch (error) {
-    console.error("Contact form delivery failed:", error instanceof Error ? error.name : "unknown error");
-    return { status: "error", values };
+  const result = await sendQuoteEmail(values, attachment.file);
+  if (!result.ok) {
+    return { status: result.reason === "not-configured" ? "unavailable" : "error", values };
   }
 
   return { status: "success" };

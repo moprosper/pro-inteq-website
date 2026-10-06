@@ -12,7 +12,7 @@ export const LOGO = {
 export const COMPANY_PROFILE_PDF: { href: string; filename: string; sizeLabel: string } | null = {
   href: "/documents/pro-inteq-company-profile.pdf",
   filename: "PRO-INTEQ-Company-Profile.pdf",
-  sizeLabel: "PDF, 18 pages, 744 KB",
+  sizeLabel: "PDF, 18 pages, 1.6 MB",
 };
 
 export interface SiteImageAsset {

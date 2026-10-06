@@ -202,6 +202,10 @@ export default function ContactForm({ requirementOptions }: { requirementOptions
               <a href={mailtoHref(values)} className="font-semibold underline">
                 send it by email
               </a>{" "}
+              or call{" "}
+              <a href={`tel:${COMPANY.contact.phones[0].replace(/\s/g, "")}`} className="font-semibold underline">
+                {COMPANY.contact.phones[0]}
+              </a>{" "}
               instead.
             </p>
           </div>

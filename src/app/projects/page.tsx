@@ -81,7 +81,7 @@ export default function ProjectsPage() {
         <SectionHeading
           eyebrow="Project types"
           title="Projects we deliver"
-          description="The types of project PRO-INTEQ undertakes across its service areas. Photographs in this section are licensed illustrations of each discipline, not records of specific PRO-INTEQ projects."
+          description="From engineering installations and infrastructure works to industrial systems and technical services, PRO-INTEQ delivers practical solutions across a broad range of project requirements."
         />
         <ul className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {PROJECT_TYPES.map((type) => {

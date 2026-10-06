@@ -49,7 +49,7 @@ export const COMPANY = {
   },
 
   leadership: [
-    { name: "Eng. Moses Prosper Odindo", role: "Managing Director" },
+    { name: "Eng. Moses Prosper", role: "Managing Director" },
   ] satisfies Leader[],
 
   // Excerpt from the Managing Director's message in the company profile.
